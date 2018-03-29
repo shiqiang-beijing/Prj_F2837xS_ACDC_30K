@@ -4,8 +4,10 @@
 //--------------------------------------------------------------------------------
 
 #ifdef		_RAM_DEBUG
-#define		VCM_TEST_MODE								// VCM Test ( For Debug Only )
+//
+#define		VCM_TEST_MODE								// VCM Test Method :  With 0 input for UiA, Read UiA_Rms, ADC_ZERO_UiA = UiA_Rms
 #define		BUZZER_NOT_USE								// No Beeper
+//
 #endif
 
 //#define		EPWM_TEST_MODE								// 244A OE1 Enable, ePWM_1~3 Pulse Width Fixed Value
