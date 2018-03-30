@@ -65,9 +65,9 @@
 //--------------------------------------------------------------------------------
 // ADC-ZERO
 //--------------------------------------------------------------------------------
-#define		ADC_ZERO_UiA		2104		// VCM=1.5V -> 2047		Theoretical VCM Value
-#define		ADC_ZERO_UiB		2090
-#define		ADC_ZERO_UiC		2084
+#define		ADC_ZERO_UiA		2050		// VCM=1.5V -> 2047		Theoretical VCM Value
+#define		ADC_ZERO_UiB		2053
+#define		ADC_ZERO_UiC		2047
 
 #define		ADC_ZERO_IiA		2070		// VCM=1.5V -> 2047		Theoretical VCM Value
 #define		ADC_ZERO_IiB		2065

@@ -24,9 +24,9 @@ volatile	float	Rate_UiB_Pwm = 3.50;
 volatile	float	Rate_UiC_Pwm = 3.50;
 
 //--------------------------------------------------------------------------------
-volatile	float	Rate_RMS_UAB = 0.4005;			// Coefficient of Calculation : RMS_U_AC
-volatile	float	Rate_RMS_UBC = 0.4000;
-volatile	float	Rate_RMS_UCA = 0.3995;
+volatile	float	Rate_RMS_UAB = 0.2085;			// Coefficient of Calculation : RMS_U_AC
+volatile	float	Rate_RMS_UBC = 0.2080;
+volatile	float	Rate_RMS_UCA = 0.2080;
 
 volatile	float	Rate_RMS_IAB = 0.0365;			// Coefficient of Calculation : RMS_I_AC
 volatile	float	Rate_RMS_IBC = 0.0360;

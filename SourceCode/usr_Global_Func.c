@@ -237,7 +237,7 @@ float RMS_IntArray(volatile Uint16 *SampleArry, Uint16 ArrayNumber, float Rate_R
 
 	#ifdef	VCM_TEST_MODE
 
-	for(i=0; i<ArrayNumber; i++)
+	for(i=0; i<ArrayNumber; i++)							// Average Value
 	{
 		tmpACC += SampleArry[i];
 	}
@@ -245,7 +245,7 @@ float RMS_IntArray(volatile Uint16 *SampleArry, Uint16 ArrayNumber, float Rate_R
 
 	#else
 
-	for(i=0; i<ArrayNumber; i++)
+	for(i=0; i<ArrayNumber; i++)							// RMS Value
 	{
 		tmpSQ   = SampleArry[i];
 		tmpACC += tmpSQ * tmpSQ;
