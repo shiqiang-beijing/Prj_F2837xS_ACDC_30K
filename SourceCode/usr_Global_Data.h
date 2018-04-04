@@ -48,7 +48,7 @@
 #define		RMS_AVG_NUM_UAC		6						// Average Time of UAC RMS Vaule
 #define		RMS_AVG_NUM_IAC		6						// Average Time of IAC RMS Vaule
 
-#define		NORMAL_VALUE_UAC	30						// Start Working
+#define		WORKING_VALUE_UAC	30						// Start Working
 
 
 //--------------------------------------------------------------------------------

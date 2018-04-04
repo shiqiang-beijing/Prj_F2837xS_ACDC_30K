@@ -270,14 +270,16 @@ void main(void)
 		{
 			float	tmpData = 0;
 			tmpData = Avg_Uint16(AdcResult_Uo1, BUFFER_SIZE_UDC);
-			Uo1 = ( tmpData / 4.92 ) - 138.76;
+//			Uo1 = ( tmpData / 4.955 ) - 139.21;
+			Uo1 = ( tmpData * 0.2018 ) - 139.21;							// Use Multiplication take the place of Division
 			AdcBuffer_Uo1_Full = 0;
 		}
 		if( AdcBuffer_Uo2_Full )
 		{
 			float	tmpData = 0;
 			tmpData = Avg_Uint16(AdcResult_Uo2, BUFFER_SIZE_UDC);
-			Uo2 = ( tmpData / 4.92 ) - 138.76;
+//			Uo2 = ( tmpData / 4.955 ) - 139.21;
+			Uo2 = ( tmpData * 0.2018 ) - 139.21;
 			AdcBuffer_Uo2_Full = 0;
 		}
 
@@ -321,7 +323,8 @@ void main(void)
 			CapData_UiC_Full = 0;
 			CapMean_UiC_Renew = 1;
 		}
-		if( CapMean_UiA_Renew || CapMean_UiB_Renew || CapMean_UiC_Renew )
+
+		if( CapMean_UiA_Renew || CapMean_UiB_Renew || CapMean_UiC_Renew )	// Mean Value of Period/Frequency
 		{
 			CapData_Uin_Mean = ( CapData_UiA_Mean + CapData_UiB_Mean + CapData_UiC_Mean )/3;
 
@@ -337,9 +340,7 @@ void main(void)
 			Ii_Rms_Mean = ( IiA_Rms + IiB_Rms + IiC_Rms ) / 3.0;
 			Power_In = Ui_Rms_Mean * Ii_Rms_Mean * 1.732;
 		}
-
 		Power_Out = Uo2 * Iout;
-
 		Power_Efficiency = Power_Out / Power_In * 100;
 
 
@@ -349,7 +350,7 @@ void main(void)
 		#ifdef	EPWM_TEST_MODE
 		usr_Gpio_OE1_En();
 		#else
-		if( (UiA_Rms>NORMAL_VALUE_UAC) && (UiB_Rms>NORMAL_VALUE_UAC) && (UiC_Rms>NORMAL_VALUE_UAC) )
+		if( (UiA_Rms>WORKING_VALUE_UAC) && (UiB_Rms>WORKING_VALUE_UAC) && (UiC_Rms>WORKING_VALUE_UAC) )
 		{
 			usr_Gpio_OE1_En();							// PWM Output Enable
 		}

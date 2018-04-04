@@ -73,9 +73,9 @@
 #define		ADC_ZERO_IiB		2051
 #define		ADC_ZERO_IiC		2050
 
-#define		ADC_ZERO_Uo1		 410		// VCM=0.3V ->  410		Theoretical VCM Value
-#define		ADC_ZERO_Uo2		 410
-#define		ADC_ZERO_Io			 410		// VCM=0.3V ->  410		Theoretical VCM Value
+#define		ADC_ZERO_Uo1		 683		// OP_0=0.5V -> 683		Theoretical Zero_Vin Value ( Vin=0, Out_Op=0.5 )
+#define		ADC_ZERO_Uo2		 683
+#define		ADC_ZERO_Io			 683		// OP_0=0.5V -> 683		Theoretical Zero_Vin Value
 
 //--------------------------------------------------------------------------------
 extern void usr_AdcA_Initial(void);
