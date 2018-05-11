@@ -3,15 +3,17 @@
 // Debug Switch
 //--------------------------------------------------------------------------------
 
-#ifdef		_RAM_DEBUG									// Debug Set
-//
-#define		VCM_TEST_MODE								// VCM Test Method :  With 0 input for UiA, Read UiA_Rms, ADC_ZERO_UiA = UiA_Rms
+#ifdef		_RAM_DEBUG									// Debug Mode
+
+#define		VCM_TEST_MODE								// With 0 input for UiA/B/C, Read UiA_Rms, UiA_Rms = ADC_ZERO_UiA
+														// With 0 input for Uo1/Uo2, Read Uo1/Uo2, Uo1/Uo2 = ADC_ZERO_Uo1/Uo2
 #define		BUZZER_NOT_USE								// No Beeper
-//
+
 #endif
 
+//#define		VCM_TEST_MODE
 
-//#define		EPWM_TEST_MODE								// 244A OE1 Enable, ePWM_1~3 Pulse Width Fixed Value
+//#define		EPWM_TEST_MODE								// 1: 244A OE1 Enable; 2: ePWM_1~ePWM_3 Pulse Width Fixed Value
 
 //#define		BUZZER_NOT_USE								// No Beeper
 
@@ -44,6 +46,7 @@
 
 #define		BUFFER_SIZE_CAP		16						// Divide 2^4, Ease Average Value Calculation
 
+#define		WDH_AVG_NUM_PWM		10
 #define		RMS_AVG_NUM_UDC		6						// Average Time of UDC Vaule
 #define		RMS_AVG_NUM_UAC		6						// Average Time of UAC RMS Vaule
 #define		RMS_AVG_NUM_IAC		6						// Average Time of IAC RMS Vaule
@@ -77,9 +80,11 @@ extern	volatile	float	Rate_RMS_IAB;
 extern	volatile	float	Rate_RMS_IBC;
 extern	volatile	float	Rate_RMS_ICA;
 
-extern	volatile	float	Rate_RMS_UDC;
+extern	volatile	float	Slope_RMS_UDC;
+extern	volatile	float	Apart_RMS_UDC;
 
-extern	volatile	float	Rate_RMS_IDC;
+extern	volatile	float	Slope_RMS_IDC;
+extern	volatile	float	Apart_RMS_IDC;
 
 //--------------------------------------------------------------------------------
 extern	volatile	Uint16	ePwm_Width_A;
@@ -88,6 +93,12 @@ extern	volatile	Uint16	ePwm_Width_C;
 
 extern	volatile	Uint16	ePwm_Width_Min;
 extern	volatile	Uint16	ePwm_Width_Max;
+
+extern				float	ePwm_Width_Arry[];
+extern	volatile	Uint16	ePwm_Width_Index;
+extern	volatile	Uint16	ePwm_Width_Full;
+
+extern	volatile	float	ePwm_DutyCycle;
 
 //--------------------------------------------------------------------------------
 // System Parameters								Time
@@ -101,6 +112,7 @@ extern	volatile	Uint16	WorkingTime_H;
 //--------------------------------------------------------------------------------
 extern	float	Uo1;
 extern	float	Uo2;
+extern	Uint16	Uo2_ADC;
 
 extern	float	Uo1_Avg[];
 extern	float	Uo2_Avg[];
@@ -109,6 +121,7 @@ extern	Uint16	i_Uo2;
 
 //--------------------------------------------------------------------------------
 extern	float	Iout;
+extern	Uint16	Iout_ADC;
 
 extern	float	Iout_Avg[];
 extern	Uint16	i_Iout;

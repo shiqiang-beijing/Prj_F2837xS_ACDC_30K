@@ -10,6 +10,7 @@
 //--------------------------------------------------------------------------------
 char	* SCIB_msg;
 char	TmpArray_3[3] = {0,0,'\0'};				// 			XX
+char	TmpArray_5[5] = {0,0,0,0,'\0'};			// 			XXXX
 char	TmpArray_6[6] = {0,0,0,0,0,'\0'};		// XXX.X	XXXXX
 char	TmpArray_8[8] = {0,0,0,0,0,0,0,'\0'};	// XXXXX.X	XXXXXXX
 
@@ -140,21 +141,21 @@ void usr_SCIB_DebugInfo(void)
 	usr_SCIB_MsgPut(SCIB_msg);
 
 	//------------------------------ 		// Frq Error Times
-	SCIB_msg = "\r\nError-FA  : \0";
+	SCIB_msg = "\r\nError-F_A : \0";
 	Uint32_to_ASCII_7P(CapData_UiA_Error, TmpArray_8);
 	usr_SCIB_MsgPut(SCIB_msg);
 	usr_SCIB_MsgPut(TmpArray_8);
 	SCIB_msg = " Times. \0";
 	usr_SCIB_MsgPut(SCIB_msg);
 
-	SCIB_msg = "\r\nError-FB  : \0";
+	SCIB_msg = "\r\nError-F_B : \0";
 	Uint32_to_ASCII_7P(CapData_UiB_Error, TmpArray_8);
 	usr_SCIB_MsgPut(SCIB_msg);
 	usr_SCIB_MsgPut(TmpArray_8);
 	SCIB_msg = " Times. \0";
 	usr_SCIB_MsgPut(SCIB_msg);
 
-	SCIB_msg = "\r\nError-FC  : \0";
+	SCIB_msg = "\r\nError-F_C : \0";
 	Uint32_to_ASCII_7P(CapData_UiC_Error, TmpArray_8);
 	usr_SCIB_MsgPut(SCIB_msg);
 	usr_SCIB_MsgPut(TmpArray_8);
@@ -183,19 +184,37 @@ void usr_SCIB_DebugInfo(void)
 	SCIB_msg = "\r\n\0";					// Blank Line
 	usr_SCIB_MsgPut(SCIB_msg);
 
-	//------------------------------ 		// Uo1, Uo2, Iout
-	SCIB_msg = "\r\nVDC-Uo1   : \0";
+	//------------------------------ 		// Uo1, Uo2, Iout, DutyCycle
+/*	SCIB_msg = "\r\nVDC-Uo1   : \0";
 	float_to_ASCII_3P1(Uo1, TmpArray_6);
 	usr_SCIB_MsgPut(SCIB_msg);
 	usr_SCIB_MsgPut(TmpArray_6);
+*/
+	SCIB_msg = "\r\nUo2-ADC   : \0";					// ADC-Uo2
+	Uint16_to_ASCII_4P(Uo2_ADC, TmpArray_5);
+	usr_SCIB_MsgPut(SCIB_msg);
+	usr_SCIB_MsgPut(TmpArray_5);
 
-	SCIB_msg = "\r\nVDC-Uo2   : \0";
+	SCIB_msg = "\r\nUo2-RMS   : \0";
 	float_to_ASCII_3P1(Uo2, TmpArray_6);
 	usr_SCIB_MsgPut(SCIB_msg);
 	usr_SCIB_MsgPut(TmpArray_6);
 
-	SCIB_msg = "\r\nIDC-Out   : \0";
+	SCIB_msg = "\r\nIdc-ADC   : \0";					// ADC-Iout
+	Uint16_to_ASCII_4P(Iout_ADC, TmpArray_5);
+	usr_SCIB_MsgPut(SCIB_msg);
+	usr_SCIB_MsgPut(TmpArray_5);
+
+	SCIB_msg = "\r\nIdc-RMS   : \0";
 	float_to_ASCII_3P1(Iout, TmpArray_6);
+	usr_SCIB_MsgPut(SCIB_msg);
+	usr_SCIB_MsgPut(TmpArray_6);
+
+	SCIB_msg = "\r\n\0";					// Blank Line
+	usr_SCIB_MsgPut(SCIB_msg);
+
+	SCIB_msg = "\r\nDutyCycle : \0";					// Duty Cycle
+	float_to_ASCII_3P1(ePwm_DutyCycle, TmpArray_6);
 	usr_SCIB_MsgPut(SCIB_msg);
 	usr_SCIB_MsgPut(TmpArray_6);
 

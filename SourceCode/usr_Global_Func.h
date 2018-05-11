@@ -4,6 +4,7 @@ extern	void usr_InitSysCtrl(void);
 
 //--------------------------------------------------------------------------------
 extern	void	Uint16_to_ASCII_2P(Uint16 , char *);
+extern	void	Uint16_to_ASCII_4P(Uint16 , char *);
 extern	void	Uint16_to_ASCII_5P(Uint16 , char *);
 
 extern	void	Uint32_to_ASCII_7P(Uint32 , char *);

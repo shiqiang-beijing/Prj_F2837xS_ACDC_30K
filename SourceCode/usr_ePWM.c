@@ -99,8 +99,8 @@ void usr_ePWM1_Setup(void)
 
 	//------------------------------ (CC) Setup Compare values£¨CMPA¡¢CMPB£©
 	EPwm1Regs.CMPA.bit.CMPA = EPWM_CMP_START;
-	#ifdef	EPWM_TEST_MODE							// ePWM Test Mode
-	EPwm1Regs.CMPB.bit.CMPB = EPWM_CMP_START+2000;
+	#ifdef	EPWM_TEST_MODE
+	EPwm1Regs.CMPB.bit.CMPB = EPWM_CMP_START + 1984;// ePWM Test Mode ( 25% Pulse Width )
 	#else
 	EPwm1Regs.CMPB.bit.CMPB = EPWM_CMP_START;
 	#endif
@@ -184,8 +184,8 @@ void usr_ePWM2_Setup(void)
 
 	//------------------------------ (CC) Setup Compare values£¨CMPA¡¢CMPB£©
 	EPwm2Regs.CMPA.bit.CMPA = EPWM_CMP_START;
-	#ifdef	EPWM_TEST_MODE							// ePWM Test Mode
-	EPwm2Regs.CMPB.bit.CMPB = EPWM_CMP_START+4000;
+	#ifdef	EPWM_TEST_MODE
+	EPwm2Regs.CMPB.bit.CMPB = EPWM_CMP_START + 3968;// ePWM Test Mode ( 50% Pulse Width )
 	#else
 	EPwm2Regs.CMPB.bit.CMPB = EPWM_CMP_START;
 	#endif
@@ -269,8 +269,8 @@ void usr_ePWM3_Setup(void)
 
 	//------------------------------ (CC) Setup Compare values£¨CMPA¡¢CMPB£©
 	EPwm3Regs.CMPA.bit.CMPA = EPWM_CMP_START;
-	#ifdef	EPWM_TEST_MODE							// ePWM Test Mode
-	EPwm3Regs.CMPB.bit.CMPB = EPWM_CMP_START+6000;
+	#ifdef	EPWM_TEST_MODE
+	EPwm3Regs.CMPB.bit.CMPB = EPWM_CMP_START + 5953;// ePWM Test Mode ( 75% Pulse Width )
 	#else
 	EPwm3Regs.CMPB.bit.CMPB = EPWM_CMP_START;
 	#endif
@@ -672,7 +672,7 @@ __interrupt void ISR_ePWM3(void)
 //--------------------------------------------------------------------------------
 __interrupt void ISR_ePWM10(void)
 {
-	#ifndef	EPWM_TEST_MODE
+	#ifndef	EPWM_TEST_MODE							// Do Not Renew Pulse Width
 	ePwm_width_2();
 	#endif
 

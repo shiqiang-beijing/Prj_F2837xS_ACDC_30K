@@ -265,29 +265,43 @@ void main(void)
 			}
 		}
 
-		//------------------------------ RMS of Uo ( Uo1 Uo2 )
+		//------------------------------ RMS of Uo ( Uo1 Uo2 ADC_Uo2 )
 		if( AdcBuffer_Uo1_Full )
 		{
 			float	tmpData = 0;
+
 			tmpData = Avg_Uint16(AdcResult_Uo1, BUFFER_SIZE_UDC);
-//			Uo1 = ( tmpData / 4.955 ) - 139.21;
-			Uo1 = ( tmpData * 0.2018 ) - 139.21;							// Use Multiplication take the place of Division
+
+			#ifdef	VCM_TEST_MODE
+			Uo1 = tmpData;													// for VCM Test
+			#else
+			Uo1 = ( tmpData * Slope_RMS_UDC ) - Apart_RMS_UDC;				// for Formula Calculation
+			#endif
+
 			AdcBuffer_Uo1_Full = 0;
 		}
 		if( AdcBuffer_Uo2_Full )
 		{
 			float	tmpData = 0;
+
 			tmpData = Avg_Uint16(AdcResult_Uo2, BUFFER_SIZE_UDC);
-//			Uo2 = ( tmpData / 4.955 ) - 139.21;
-			Uo2 = ( tmpData * 0.2018 ) - 139.21;
+			Uo2_ADC = tmpData;												// ADC Value of Uo2
+
+			#ifdef	VCM_TEST_MODE
+			Uo2 = tmpData;
+			#else
+			Uo2 = ( tmpData * Slope_RMS_UDC ) - Apart_RMS_UDC;
+			#endif
+
 			AdcBuffer_Uo2_Full = 0;
 		}
 
-		//------------------------------ RMS of Io
+		//------------------------------ RMS of Io ( ADC_Io )
 		if( AdcBuffer_Io_Full )
 		{
 			float	tmpData = 0;
 			tmpData = Avg_Uint16(AdcResult_Io, BUFFER_SIZE_IDC);
+			Iout_ADC = tmpData;												// ADC Value of Iout
 			Iout = ( tmpData / 4.92 ) - 138.76;
 			AdcBuffer_Io_Full = 0;
 		}
@@ -333,6 +347,17 @@ void main(void)
 			CapMean_UiC_Renew = 0;
 		}
 
+		//------------------------------ Duty cycle of PWM_Output
+		if( ePwm_Width_Full )
+		{
+			float	tmpData = 0;
+			tmpData = Avg_Float(ePwm_Width_Arry,WDH_AVG_NUM_PWM);
+
+			ePwm_DutyCycle = ( tmpData / EPWM_CMP_MAX ) * 100;
+		}
+
+
+
 		//------------------------------ Power-In & Power-Out
 		if( UiA_RmsNew && UiB_RmsNew && UiC_RmsNew )
 		{
@@ -360,17 +385,15 @@ void main(void)
 		}
 		#endif
 
-		//------------------------------ Adjust the Coefficient of Control 
+		//------------------------------ Adjust the Coefficient of Control
 		if( UiA_RmsNew && UiB_RmsNew && UiC_RmsNew )
 		{
-			//------ Mean Value : All Ui
-//			Ui_Rms_Mean = ( UiA_Rms + UiB_Rms + UiC_Rms ) / 3.0;
+//			Ui_Rms_Mean = ( UiA_Rms + UiB_Rms + UiC_Rms ) / 3.0;				// Scheme 1: Mean Value of All Ui
 //			Rate_UiA_Pwm = Rate_Uac_Pwm * ( Ui_Rms_Mean / UiA_Rms );
 //			Rate_UiB_Pwm = Rate_Uac_Pwm * ( Ui_Rms_Mean / UiB_Rms );
 //			Rate_UiC_Pwm = Rate_Uac_Pwm * ( Ui_Rms_Mean / UiC_Rms );
-/*
-			//------ Mean Value : Max and Min
-			if( UiA_Rms < UiB_Rms )								// A < B
+
+			if( UiA_Rms < UiB_Rms )								// A < B		// Scheme 2: Max and Min
 			{
 				if( UiB_Rms < UiC_Rms )							// A < B < C
 				{
@@ -412,7 +435,7 @@ void main(void)
 					}
 				}
 			}
-*/
+
 			UiA_RmsNew = 0;
 			UiB_RmsNew = 0;
 			UiC_RmsNew = 0;

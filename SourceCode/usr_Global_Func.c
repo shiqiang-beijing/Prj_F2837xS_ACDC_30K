@@ -123,6 +123,26 @@ void Uint16_to_ASCII_2P(Uint16 num, char *p)
 	*(p) = tmpi + 0x30;
 }
 
+// Uint16 to ASCII Array		Format: XXXX
+//
+void Uint16_to_ASCII_4P(Uint16 num, char *p)
+{
+	Uint16 tmpf, tmpi;
+
+	tmpf = num;
+
+	*(p++) = tmpf/1000 + 0x30;
+	tmpi = tmpf % 1000;
+
+	*(p++) = tmpi/100 + 0x30;
+	tmpi %= 100;
+
+	*(p++) = tmpi/10 + 0x30;
+	tmpi %= 10;
+
+	*(p++) = tmpi + 0x30;
+}
+
 // Uint16 to ASCII Array		Format: XXXXX
 //
 void Uint16_to_ASCII_5P(Uint16 num, char *p)
@@ -501,6 +521,13 @@ void ePwm_width_2(void)										// Run Time in RAM ( CPU_Cycle ): 131 ( No  Min
 	ePwm_Width_C = UiC_Trans * Rate_UiC_Pwm;
 
 	Width_Accumulator = ePwm_Width_A + ePwm_Width_B + ePwm_Width_C;
+
+	ePwm_Width_Arry[ePwm_Width_Index++] = Width_Accumulator;
+	if( ePwm_Width_Index >= WDH_AVG_NUM_PWM )
+	{
+		ePwm_Width_Index = 0;
+		ePwm_Width_Full = 1;
+	}
 
 	if( Width_Accumulator > EPWM_CMP_MAX )					// Max ePwm_Width Limit
 	{

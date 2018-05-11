@@ -17,24 +17,27 @@ volatile	Uint16	Cnt_Buzzer = 0;
 //--------------------------------------------------------------------------------
 // System Control									Coefficient
 //--------------------------------------------------------------------------------
-volatile	float	Rate_Uac_Pwm = 3.50;			// Sampled UAC ( Instant Value ) to Pulse Width
+volatile	float	Rate_Uac_Pwm = 2.50;			// Sampled UAC ( Instant Value ) to Pulse Width
 
-volatile	float	Rate_UiA_Pwm = 3.50;
-volatile	float	Rate_UiB_Pwm = 3.50;
-volatile	float	Rate_UiC_Pwm = 3.50;
+volatile	float	Rate_UiA_Pwm = 2.50;
+volatile	float	Rate_UiB_Pwm = 2.50;
+volatile	float	Rate_UiC_Pwm = 2.50;
 
 //--------------------------------------------------------------------------------
-volatile	float	Rate_RMS_UAB = 0.3355;			// Coefficient of Calculation : RMS_U_AC
-volatile	float	Rate_RMS_UBC = 0.3360;
-volatile	float	Rate_RMS_UCA = 0.3330;
+													// Ratio Coefficient for Calculation : RMS_U_AC
+volatile	float	Rate_RMS_UAB = 0.4009;//0.2925; //0.3791-TI; //0.3821-0420; //0.3355-0404;
+volatile	float	Rate_RMS_UBC = 0.3995;//0.2958; //0.3710-TI; //0.3739-0420; //0.3360-0404;
+volatile	float	Rate_RMS_UCA = 0.3973;//0.3366; //0.3693-TI; //0.3722-0420; //0.3330-0404;
 
-volatile	float	Rate_RMS_IAB = 0.0365;			// Coefficient of Calculation : RMS_I_AC
+volatile	float	Rate_RMS_IAB = 0.0365;			// Ratio Coefficient for Calculation : RMS_I_AC
 volatile	float	Rate_RMS_IBC = 0.0360;
 volatile	float	Rate_RMS_ICA = 0.0360;
 
-volatile	float	Rate_RMS_UDC = 0.375;
+volatile	float	Slope_RMS_UDC = 0.1995;			// Slope of Computational Formula : Uout
+volatile	float	Apart_RMS_UDC = 139.09;			// Apart of Computational Formula : Uout
 
-volatile	float	Rate_RMS_IDC = 0.375;
+volatile	float	Slope_RMS_IDC = 0.175;			// Slope of Computational Formula : Iout
+volatile	float	Apart_RMS_IDC = 12.57;			// Apart of Computational Formula : Iout
 
 //--------------------------------------------------------------------------------
 volatile	Uint16	ePwm_Width_A = EPWM_CMP_MIN;
@@ -43,6 +46,12 @@ volatile	Uint16	ePwm_Width_C = EPWM_CMP_MIN;
 
 volatile	Uint16	ePwm_Width_Min = EPWM_CMP_MIN;
 volatile	Uint16	ePwm_Width_Max = EPWM_CMP_MAX;
+
+			float	ePwm_Width_Arry[WDH_AVG_NUM_PWM];
+volatile	Uint16	ePwm_Width_Index = 0;
+volatile	Uint16	ePwm_Width_Full = 0;
+
+volatile	float	ePwm_DutyCycle = 0;				// 100 times of Duty Cycle
 
 //--------------------------------------------------------------------------------
 // System Parameters								Time
@@ -56,6 +65,7 @@ volatile	Uint16	WorkingTime_H = 0;				// Hour
 //--------------------------------------------------------------------------------
 float	Uo1 = 0;									// Voltage of DC Output
 float	Uo2 = 0;									// Voltage of DC Output Filter
+Uint16	Uo2_ADC = 0;
 
 float	Uo1_Avg[RMS_AVG_NUM_UDC];					// Voltage of DC Output Array ( For Average Calculation )
 float	Uo2_Avg[RMS_AVG_NUM_UDC];
@@ -64,6 +74,7 @@ Uint16	i_Uo2 = 0;
 
 //--------------------------------------------------------------------------------
 float	Iout = 0;									// Current of Output
+Uint16	Iout_ADC = 0;
 
 float	Iout_Avg[RMS_AVG_NUM_UDC];					// Current of Output Array ( For Average Calculation )
 Uint16	i_Iout = 0;									// Counter for Average Calculation
