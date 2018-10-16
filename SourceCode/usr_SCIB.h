@@ -10,17 +10,28 @@
 
 //--------------------------------------------------------------------------------
 extern	char	* SCIB_msg;
+
 extern	char	TmpArray_3[];
 extern	char	TmpArray_6[];
 extern	char	TmpArray_8[];
 
+extern	char	TmpArray_16[];
+
 //--------------------------------------------------------------------------------
-extern void usr_SCIB_Setup(void);
+extern  void usr_SCIB_Setup(void);
+extern  void usr_SCIB_485_En(void);
 
-extern void usr_SCIB_Xmit(int);
-extern void usr_SCIB_MsgPut(char *);
+//--------------------------------------------------------------------------------
+extern  void usr_SCIB_Xmit(int);
+extern  void usr_SCIB_MsgPut(char *);
 
-extern void usr_SCIB_485_En(void);
+//--------------------------------------------------------------------------------
+extern  __interrupt void ISR_SCIB_RX(void);
+extern  __interrupt void ISR_SCIB_TX(void);
 
-extern void usr_SCIB_DebugInfo(void);
+//--------------------------------------------------------------------------------
+extern  void usr_SCIB_MonitorRes(void);
 
+//--------------------------------------------------------------------------------
+extern  void usr_SCIB_InfoStart(void);
+extern  void usr_SCIB_InfoDebug(void);

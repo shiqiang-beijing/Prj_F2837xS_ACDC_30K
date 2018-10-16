@@ -21,7 +21,9 @@ extern	Uint16	Avg_Uint16(volatile Uint16 *, Uint16);
 extern	Uint32	Avg_Uint32(volatile Uint32 *, Uint16);
 
 //--------------------------------------------------------------------------------
-extern	void	ePwm_width_1(void);
-extern	void	ePwm_width_2(void);
 extern	void	ePwm_width_O(void);
 
+extern	void	ePwm_width_1(void);
+
+extern	void	ePwm_width_P(void);
+extern	void	ePwm_width_S(void);

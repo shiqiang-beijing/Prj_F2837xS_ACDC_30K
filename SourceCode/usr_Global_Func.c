@@ -10,9 +10,13 @@
 
 //--------------------------------------------------------------------------------
 #ifdef	_FLASH
-
-#pragma CODE_SECTION(ePwm_width_2, ".TI.ramfunc");
-
+//
+#ifdef	POWER_MODE_PARALLEL
+#pragma CODE_SECTION(ePwm_width_P, ".TI.ramfunc");		// Output Stage Parallel Connection
+#else
+#pragma CODE_SECTION(ePwm_width_S, ".TI.ramfunc");		// Output Stage Serial Connection
+#endif
+//
 #endif
 
 
@@ -31,7 +35,7 @@ void usr_InitSysCtrl(void)
 //	CpuSysRegs.PCLKCR0.bit.CPUTIMER2 = 1;
 
 //	CpuSysRegs.PCLKCR0.bit.HRPWM = 1;
-//	CpuSysRegs.PCLKCR0.bit.TBCLKSYNC = 1;		// Globally Synchronize All Enabled ePWM Modules 
+//	CpuSysRegs.PCLKCR0.bit.TBCLKSYNC = 1;		// Globally Synchronize All Enabled ePWM Modules
 
 	CpuSysRegs.PCLKCR1.bit.EMIF1 = 0;
 	CpuSysRegs.PCLKCR1.bit.EMIF2 = 0;
@@ -347,7 +351,8 @@ void ePwm_width_O(void)										// Run Time in RAM ( CPU_Cycle ) :  Uint16: 162
 	ePwm_Width_C = UiC_Trans * Rate_UiC_Pwm;
 
 	//------------------------------
-/*	if( ePwm_Width_A < ePwm_Width_Min )
+	/*
+	if( ePwm_Width_A < ePwm_Width_Min )
 	{
 		ePwm_Width_A = 0;
 	}
@@ -372,7 +377,8 @@ void ePwm_width_O(void)										// Run Time in RAM ( CPU_Cycle ) :  Uint16: 162
 	{
 		ePwm_Width_C = ePwm_Width_Max;
 	}
-*/
+	*/
+
 	//------------------------------
 	ePwm_On_A  = EPWM_CMP_START;
 	ePwm_Off_A = ePwm_On_A + ePwm_Width_A + EPWM_CMP_OVERLAY;
@@ -395,9 +401,10 @@ void ePwm_width_O(void)										// Run Time in RAM ( CPU_Cycle ) :  Uint16: 162
 	EPwm3Regs.CMPB.bit.CMPB = ePwm_Off_C;
 
 	EALLOW;
-	EPwm1Regs.GLDCTL2.bit.GFRCLD = 1;						// Software Force One Global Load Event 
+	EPwm1Regs.GLDCTL2.bit.GFRCLD = 1;						// Software Force One Global Load Event
 	EDIS;
 }
+
 //--------------------------------------------------------------------------------
 // Compare Method 1
 //--------------------------------------------------------------------------------
@@ -504,10 +511,11 @@ void ePwm_width_1(void)										// Run Time in RAM ( CPU_Cycle ): Uint16: 170 ~
 		}
 	}
 }
+
 //--------------------------------------------------------------------------------
-// Compare Method 2
+// Compare Method 2 ( Output Stage Parallel Connection : Stable )
 //--------------------------------------------------------------------------------
-void ePwm_width_2(void)										// Run Time in RAM ( CPU_Cycle ): 131 ( No  Min Width_Limit )
+void ePwm_width_P(void)										// Run Time in RAM ( CPU_Cycle ): 131 ( No  Min Width_Limit )
 {															// Run Time in RAM ( CPU_Cycle ): 138 ( Add Min Width_Limit )
 	Uint16	ePwm_On_A = 0, ePwm_Off_A = 0;					// Run Time in RAM ( CPU_Cycle ): 185 ( Add Max Width_Limit )
 	Uint16	ePwm_On_B = 0, ePwm_Off_B = 0;					// Run Time in RAM ( CPU_Cycle ): 190 ( Add Min and Max Width_Limit )
@@ -536,6 +544,8 @@ void ePwm_width_2(void)										// Run Time in RAM ( CPU_Cycle ): 131 ( No  Min
 		ePwm_Width_B = Width_RateAdj * ePwm_Width_B;
 		ePwm_Width_C = Width_RateAdj * ePwm_Width_C;
 	}
+
+	//------------------------------
 
 	if( ePwm_Width_A < ePwm_Width_B )						// A < B
 	{
@@ -712,8 +722,67 @@ void ePwm_width_2(void)										// Run Time in RAM ( CPU_Cycle ): 131 ( No  Min
 	EPwm3Regs.CMPB.bit.CMPB = ePwm_Off_C;
 
 	EALLOW;
-	EPwm1Regs.GLDCTL2.bit.GFRCLD = 1;						// Software Force One Global Load Event 
+	EPwm1Regs.GLDCTL2.bit.GFRCLD = 1;						// Software Force One Global Load Event
 	EDIS;
 }
 
+//--------------------------------------------------------------------------------
+// Compare Method 3 ( Output Stage Serial Connection )
+//--------------------------------------------------------------------------------
+void ePwm_width_S(void)										// Run Time in RAM ( CPU_Cycle ): 131 ( No  Min Width_Limit )
+{															// Run Time in RAM ( CPU_Cycle ): 138 ( Add Min Width_Limit )
+	Uint16	ePwm_On_A = 0, ePwm_Off_A = 0;					// Run Time in RAM ( CPU_Cycle ): 185 ( Add Max Width_Limit )
+	Uint16	ePwm_On_B = 0, ePwm_Off_B = 0;					// Run Time in RAM ( CPU_Cycle ): 190 ( Add Min and Max Width_Limit )
+	Uint16	ePwm_On_C = 0, ePwm_Off_C = 0;
 
+	float	Width_Accumulator = 0;
+	float	Width_RateAdj = 1;
+
+	ePwm_Width_A = UiA_Trans * Rate_UiA_Pwm;
+	ePwm_Width_B = UiB_Trans * Rate_UiB_Pwm;
+	ePwm_Width_C = UiC_Trans * Rate_UiC_Pwm;
+
+	Width_Accumulator = ePwm_Width_A + ePwm_Width_B + ePwm_Width_C;
+
+	ePwm_Width_Arry[ePwm_Width_Index++] = Width_Accumulator;
+	if( ePwm_Width_Index >= WDH_AVG_NUM_PWM )
+	{
+		ePwm_Width_Index = 0;
+		ePwm_Width_Full = 1;
+	}
+
+	if( Width_Accumulator > EPWM_CMP_MAX )					// Max ePwm_Width Limit
+	{
+		Width_RateAdj = EPWM_CMP_MAX / Width_Accumulator;
+		ePwm_Width_A = Width_RateAdj * ePwm_Width_A;
+		ePwm_Width_B = Width_RateAdj * ePwm_Width_B;
+		ePwm_Width_C = Width_RateAdj * ePwm_Width_C;
+	}
+
+	//------------------------------
+
+	ePwm_On_A  = EPWM_CMP_START;
+	ePwm_Off_A = EPWM_CMP_START + ePwm_Width_A;
+
+	ePwm_On_B  = EPWM_CMP_START;
+	ePwm_Off_B = EPWM_CMP_START + ePwm_Width_B;
+
+	ePwm_On_C  = EPWM_CMP_START;
+	ePwm_Off_C = EPWM_CMP_START + ePwm_Width_C;
+
+
+	//------------------------------
+
+	EPwm1Regs.CMPA.bit.CMPA = ePwm_On_A;
+	EPwm1Regs.CMPB.bit.CMPB = ePwm_Off_A;
+
+	EPwm2Regs.CMPA.bit.CMPA = ePwm_On_B;
+	EPwm2Regs.CMPB.bit.CMPB = ePwm_Off_B;
+
+	EPwm3Regs.CMPA.bit.CMPA = ePwm_On_C;
+	EPwm3Regs.CMPB.bit.CMPB = ePwm_Off_C;
+
+	EALLOW;
+	EPwm1Regs.GLDCTL2.bit.GFRCLD = 1;						// Software Force One Global Load Event
+	EDIS;
+}

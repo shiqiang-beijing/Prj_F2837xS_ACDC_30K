@@ -289,13 +289,13 @@ __interrupt void ISR_AdcA_INT1(void)						// UiA1 -> Channle A1 -> INT_A1
 	#ifdef	VCM_TEST_MODE
 	UiA_Trans = AdcaResultRegs.ADCRESULT1;					// No VCM
 	#else
-	if( AdcaResultRegs.ADCRESULT1 > ADC_ZERO_UiA )
+	if( AdcaResultRegs.ADCRESULT1 > Bias_ADC_UAB )
 	{
-		UiA_Trans = AdcaResultRegs.ADCRESULT1 - ADC_ZERO_UiA;
+		UiA_Trans = AdcaResultRegs.ADCRESULT1 - Bias_ADC_UAB;
 	}
 	else
 	{
-		UiA_Trans = ADC_ZERO_UiA - AdcaResultRegs.ADCRESULT1;
+		UiA_Trans = Bias_ADC_UAB - AdcaResultRegs.ADCRESULT1;
 	}
 	#endif
 
@@ -354,13 +354,13 @@ __interrupt void ISR_AdcA_INT4(void)						// IiA  -> Channle A3 -> INT_A4
 	#ifdef	VCM_TEST_MODE
 	IiA_Trans = AdcaResultRegs.ADCRESULT3;					// No VCM
 	#else
-	if( AdcaResultRegs.ADCRESULT3 > ADC_ZERO_IiA )
+	if( AdcaResultRegs.ADCRESULT3 > Bias_ADC_IAB )
 	{
-		IiA_Trans = AdcaResultRegs.ADCRESULT3 - ADC_ZERO_IiA;
+		IiA_Trans = AdcaResultRegs.ADCRESULT3 - Bias_ADC_IAB;
 	}
 	else
 	{
-		IiA_Trans = ADC_ZERO_IiA - AdcaResultRegs.ADCRESULT3;
+		IiA_Trans = Bias_ADC_IAB - AdcaResultRegs.ADCRESULT3;
 	}
 	#endif
 
@@ -386,13 +386,13 @@ __interrupt void ISR_AdcB_INT1(void)						// UiB1 -> Channle B2 -> INT_B1
 	#ifdef	VCM_TEST_MODE									// No VCM
 	UiB_Trans = AdcbResultRegs.ADCRESULT2;
 	#else
-	if( AdcbResultRegs.ADCRESULT2 > ADC_ZERO_UiB )
+	if( AdcbResultRegs.ADCRESULT2 > Bias_ADC_UBC )
 	{
-		UiB_Trans = AdcbResultRegs.ADCRESULT2 - ADC_ZERO_UiB;
+		UiB_Trans = AdcbResultRegs.ADCRESULT2 - Bias_ADC_UBC;
 	}
 	else
 	{
-		UiB_Trans = ADC_ZERO_UiB - AdcbResultRegs.ADCRESULT2;
+		UiB_Trans = Bias_ADC_UBC - AdcbResultRegs.ADCRESULT2;
 	}
 	#endif
 
@@ -449,13 +449,13 @@ __interrupt void ISR_AdcC_INT1(void)						// UiC1 -> Channle C2 -> INT_C1
 	#ifdef	VCM_TEST_MODE									// No VCM
 	UiC_Trans = AdccResultRegs.ADCRESULT2;
 	#else
-	if( AdccResultRegs.ADCRESULT2 > ADC_ZERO_UiC )
+	if( AdccResultRegs.ADCRESULT2 > Bias_ADC_UCA )
 	{
-		UiC_Trans = AdccResultRegs.ADCRESULT2 - ADC_ZERO_UiC;
+		UiC_Trans = AdccResultRegs.ADCRESULT2 - Bias_ADC_UCA;
 	}
 	else
 	{
-		UiC_Trans = ADC_ZERO_UiC - AdccResultRegs.ADCRESULT2;
+		UiC_Trans = Bias_ADC_UCA - AdccResultRegs.ADCRESULT2;
 	}
 	#endif
 
@@ -478,13 +478,13 @@ __interrupt void ISR_AdcC_INT2(void)						// IiB  -> Channle C4 -> INT_C2
 	#ifdef	VCM_TEST_MODE
 	IiB_Trans = AdccResultRegs.ADCRESULT4;					// No VCM
 	#else
-	if( AdccResultRegs.ADCRESULT4 > ADC_ZERO_IiB )
+	if( AdccResultRegs.ADCRESULT4 > Bias_ADC_IBC )
 	{
-		IiB_Trans = AdccResultRegs.ADCRESULT4 - ADC_ZERO_IiB;
+		IiB_Trans = AdccResultRegs.ADCRESULT4 - Bias_ADC_IBC;
 	}
 	else
 	{
-		IiB_Trans = ADC_ZERO_IiB - AdccResultRegs.ADCRESULT4;
+		IiB_Trans = Bias_ADC_IBC - AdccResultRegs.ADCRESULT4;
 	}
 	#endif
 
@@ -528,13 +528,13 @@ __interrupt void ISR_AdcD_INT2(void)						// IiC  -> Channle D0 -> INT_D2
 	#ifdef	VCM_TEST_MODE
 	IiC_Trans = AdcdResultRegs.ADCRESULT0;					// No VCM
 	#else
-	if( AdcdResultRegs.ADCRESULT0 > ADC_ZERO_IiC )
+	if( AdcdResultRegs.ADCRESULT0 > Bias_ADC_ICA )
 	{
-		IiC_Trans = AdcdResultRegs.ADCRESULT0 - ADC_ZERO_IiC;
+		IiC_Trans = AdcdResultRegs.ADCRESULT0 - Bias_ADC_ICA;
 	}
 	else
 	{
-		IiC_Trans = ADC_ZERO_IiC - AdcdResultRegs.ADCRESULT0;
+		IiC_Trans = Bias_ADC_ICA - AdcdResultRegs.ADCRESULT0;
 	}
 	#endif
 
@@ -550,4 +550,3 @@ __interrupt void ISR_AdcD_INT2(void)						// IiC  -> Channle D0 -> INT_D2
 	AdcdRegs.ADCINTFLGCLR.bit.ADCINT2 = 1;					// Clear ADCD_INT2 flag
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP10;
 }
-

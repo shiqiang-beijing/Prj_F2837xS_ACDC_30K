@@ -12,6 +12,7 @@
 #include	"usr_ePWM.h"
 #include	"usr_eCAP.h"
 #include	"usr_SCIB.h"
+#include	"usr_I2CA_EEPROM.h"
 
 //--------------------------------------------------------------------------------
 void main(void)
@@ -69,6 +70,11 @@ void main(void)
 	PieVectTable.ECAP2_INT = &ISR_eCAP2;
 	PieVectTable.ECAP3_INT = &ISR_eCAP3;
 
+	PieVectTable.SCIB_RX_INT = &ISR_SCIB_RX;		// SCIB
+	PieVectTable.SCIB_TX_INT = &ISR_SCIB_TX;
+
+	PieVectTable.I2CA_INT = &ISR_I2CA_INT;			// I2C_A
+
 	EDIS;
 
 	//------------------------------ Setup CPU Timers
@@ -97,6 +103,9 @@ void main(void)
 	//------------------------------ Setup SCI
 //	usr_SCIA_Setup();
 	usr_SCIB_Setup();
+
+	//------------------------------ Setup I2C
+	usr_I2CA_Setup();
 
 	//------------------------------ Setup ePWM
 	EALLOW;
@@ -133,6 +142,8 @@ void main(void)
 //	IER |= M_INT2;									// Enable CPU INT2  for ePWM1_TZ ~ ePWM12_TZ
 	IER |= M_INT3;									// Enable CPU INT3  for ePWM1 ~ ePWM12
 	IER |= M_INT4;									// Enable CPU INT4  for eCAP1 ~ eCAP6
+	IER |= M_INT8;									// Enable CPU INT8  for I2CA
+	IER |= M_INT9;									// Enable CPU INT9  for SCIB
 	IER |= M_INT10;									// Enable CPU INT10 for ADCx2, ADCx3, ADCx4
 
 	IER |= M_INT13;									// Enable CPU INT13 for CpuTimer1
@@ -176,6 +187,11 @@ void main(void)
 	PieCtrlRegs.PIEIER4.bit.INTx2 = 1;				// Enable eCAP2_INT in the PIE
 	PieCtrlRegs.PIEIER4.bit.INTx3 = 1;				// Enable eCAP3_INT in the PIE
 
+	PieCtrlRegs.PIEIER9.bit.INTx3 = 1;				// Enable SCIB_RX
+	PieCtrlRegs.PIEIER9.bit.INTx4 = 1;				// Enable SCIB_TX
+
+	PieCtrlRegs.PIEIER8.bit.INTx1 = 1;				// Enable I2C_A_INT
+
 	//------------------------------
 	EINT;											// Enable Global interrupt INTM
 	ERTM;											// Enable Global realtime interrupt DBGM
@@ -189,14 +205,16 @@ void main(void)
 
 	usr_Adc_Trigger_On();							// ADCs Working Start
 
-//	usr_SCIA_485_En();								// 485 Enable
-
-	SCIB_msg = "\r\n\n\nHello! Let's Start Working!\r\n\0";
-	usr_SCIB_MsgPut(SCIB_msg);
+	//usr_SCIB_485_En();							// 485 Send Enable
+	#ifndef		SCIB_MONITOR
+	usr_SCIB_InfoStart();							// Send out Start Infomation from SCI-B
+	#endif
 
 	for(;;)
 	{
-		//------------------------------ Parameter Calculation ------------------------------
+		//-----------------------------------------------------------------------------------
+		//								 Parameter Calculation
+		//-----------------------------------------------------------------------------------
 
 		//------------------------------ RMS of Uac ( UiA, UiB, UiC )
 		if( AdcBuffer_UiA_Full )											// Sample Array Completed
@@ -356,8 +374,6 @@ void main(void)
 			ePwm_DutyCycle = ( tmpData / EPWM_CMP_MAX ) * 100;
 		}
 
-
-
 		//------------------------------ Power-In & Power-Out
 		if( UiA_RmsNew && UiB_RmsNew && UiC_RmsNew )
 		{
@@ -368,8 +384,9 @@ void main(void)
 		Power_Out = Uo2 * Iout;
 		Power_Efficiency = Power_Out / Power_In * 100;
 
-
-		//------------------------------ System Control ------------------------------
+		//----------------------------------------------------------------------------
+		//								 System Control
+		//----------------------------------------------------------------------------
 
 		//------------------------------ ePWM OutPut Enable
 		#ifdef	EPWM_TEST_MODE
@@ -388,10 +405,12 @@ void main(void)
 		//------------------------------ Adjust the Coefficient of Control
 		if( UiA_RmsNew && UiB_RmsNew && UiC_RmsNew )
 		{
-//			Ui_Rms_Mean = ( UiA_Rms + UiB_Rms + UiC_Rms ) / 3.0;				// Scheme 1: Mean Value of All Ui
-//			Rate_UiA_Pwm = Rate_Uac_Pwm * ( Ui_Rms_Mean / UiA_Rms );
-//			Rate_UiB_Pwm = Rate_Uac_Pwm * ( Ui_Rms_Mean / UiB_Rms );
-//			Rate_UiC_Pwm = Rate_Uac_Pwm * ( Ui_Rms_Mean / UiC_Rms );
+			/*
+			Ui_Rms_Mean = ( UiA_Rms + UiB_Rms + UiC_Rms ) / 3.0;				// Scheme 1: Mean Value of All Ui
+			Rate_UiA_Pwm = Rate_Uac_Pwm * ( Ui_Rms_Mean / UiA_Rms );
+			Rate_UiB_Pwm = Rate_Uac_Pwm * ( Ui_Rms_Mean / UiB_Rms );
+			Rate_UiC_Pwm = Rate_Uac_Pwm * ( Ui_Rms_Mean / UiC_Rms );
+			*/
 
 			if( UiA_Rms < UiB_Rms )								// A < B		// Scheme 2: Max and Min
 			{
@@ -441,12 +460,35 @@ void main(void)
 			UiC_RmsNew = 0;
 		}
 
+		//------------------------------------------------------------------------------------
+		//								 Miscellaneous Handling
+		//------------------------------------------------------------------------------------
 
-		//------------------------------ SciA
-		if( En_SciB_Send != 0 )							// Sign of SCI-A
+		//------------------------------ SCI-B
+		#ifndef		SCIB_MONITOR						// Self Running Mode, En_SciB_Send : Used as Sign of SCI-B
+		if( En_SciB_Send != 0 )
 		{
-			usr_SCIB_DebugInfo();
+			usr_SCIB_InfoDebug();
 			En_SciB_Send = 0;
+		}
+		#else											// Monitor Mode, En_SciB_Send : Used as Counter of Fail-Safe
+		if( SCIB_RxGet != 0 )
+		{
+			SCIB_RxGet = 0;
+			usr_SCIB_MonitorRes();
+			En_SciB_Send = 0;
+		}
+		if( En_SciB_Send > 3 )							// Communication Fail
+		{
+			En_SciB_Send = 0;
+			usr_SCIB_Setup();
+		}
+		#endif
+
+		//------------------------------ I2CA-EEPROM
+		if( SCIB_SetupGet != 0 )
+		{
+			SCIB_SetupGet = 0;
 		}
 
 		//------------------------------ Buzzer

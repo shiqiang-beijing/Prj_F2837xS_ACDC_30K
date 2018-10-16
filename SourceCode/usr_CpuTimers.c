@@ -60,10 +60,7 @@ __interrupt void ISR_CpuTimer2(void)
 //	CpuTimer2.InterruptCount++;
 
 	//------------------------------ SciB
-	if( En_SciB_Send == 0)
-	{
-		En_SciB_Send = 1;
-	}
+	En_SciB_Send += 1;
 
 	//------------------------------ Buzzer
 	#ifndef	BUZZER_NOT_USE
@@ -76,4 +73,3 @@ __interrupt void ISR_CpuTimer2(void)
 	#endif
 
 }
-

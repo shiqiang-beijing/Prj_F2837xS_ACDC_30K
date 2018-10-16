@@ -85,7 +85,7 @@ void usr_ePWM1_Setup(void)
 	EPwm1Regs.TBPHS.bit.TBPHS = 0x0000;				// Phase is 0
 	EPwm1Regs.TBCTR = 0x0000;						// Clear counter
 
-	//------------------------------ (CC) Setup Shadow Register£¨CMPA¡¢CMPB£©load on ZERO
+	//------------------------------ (CC) Setup Shadow Registerï¿½ï¿½CMPAï¿½ï¿½CMPBï¿½ï¿½load on ZERO
 
 	EPwm1Regs.CMPCTL.bit.SHDWAMODE = CC_IMMEDIATE;	// CC_SHADOW, CC_IMMEDIATE
 	EPwm1Regs.CMPCTL.bit.SHDWBMODE = CC_IMMEDIATE;
@@ -97,7 +97,7 @@ void usr_ePWM1_Setup(void)
 	EPwm1Regs.CMPCTL.bit.LOADBMODE = CC_CTR_ZERO;	// .LOADBMODE : Hase No Effect in Immediate Mode
 
 
-	//------------------------------ (CC) Setup Compare values£¨CMPA¡¢CMPB£©
+	//------------------------------ (CC) Setup Compare valuesï¿½ï¿½CMPAï¿½ï¿½CMPBï¿½ï¿½
 	EPwm1Regs.CMPA.bit.CMPA = EPWM_CMP_START;
 	#ifdef	EPWM_TEST_MODE
 	EPwm1Regs.CMPB.bit.CMPB = EPWM_CMP_START + 1984;// ePWM Test Mode ( 25% Pulse Width )
@@ -105,7 +105,7 @@ void usr_ePWM1_Setup(void)
 	EPwm1Regs.CMPB.bit.CMPB = EPWM_CMP_START;
 	#endif
 
-	//------------------------------ (AQ) Setup Actions	   Set Points£ºZRO, PRD, CAU, CAD, CBU, CBD
+	//------------------------------ (AQ) Setup Actions	   Set Pointsï¿½ï¿½ZRO, PRD, CAU, CAD, CBU, CBD
 	EPwm1Regs.AQCTLA.bit.ZRO = AQ_CLEAR;
 	EPwm1Regs.AQCTLA.bit.PRD = AQ_CLEAR;
 	EPwm1Regs.AQCTLA.bit.CAU = AQ_SET;
@@ -127,9 +127,9 @@ void usr_ePWM1_Setup(void)
 
 	//------------------------------ (PC) Setup PWM Chopper
 	EPwm1Regs.PCCTL.bit.CHPEN = 0;					// CHPEN = 1;
-	EPwm1Regs.PCCTL.bit.OSHTWTH = 0xF;				// One-shot pulse width = N ¡Á EPWMCLK*8£»N =£¨0x0~0xF£©
-	EPwm1Regs.PCCTL.bit.CHPFREQ = CHP_DIV8;			// Chopping clock frequency = EPWMCLK/N/8£»N =£¨CHP_DIV1~CHP_DIV8£©
-	EPwm1Regs.PCCTL.bit.CHPDUTY = CHP4_8TH;			// Chopping clock Duty cycle CHP1_8TH£¨12.5%£©~ CHP7_8TH£¨87.5%£©
+	EPwm1Regs.PCCTL.bit.OSHTWTH = 0xF;				// One-shot pulse width = N ï¿½ï¿½ EPWMCLK*8ï¿½ï¿½N =ï¿½ï¿½0x0~0xFï¿½ï¿½
+	EPwm1Regs.PCCTL.bit.CHPFREQ = CHP_DIV8;			// Chopping clock frequency = EPWMCLK/N/8ï¿½ï¿½N =ï¿½ï¿½CHP_DIV1~CHP_DIV8ï¿½ï¿½
+	EPwm1Regs.PCCTL.bit.CHPDUTY = CHP4_8TH;			// Chopping clock Duty cycle CHP1_8THï¿½ï¿½12.5%ï¿½ï¿½~ CHP7_8THï¿½ï¿½87.5%ï¿½ï¿½
 
 	//------------------------------ (TZ) Setup
 
@@ -172,7 +172,7 @@ void usr_ePWM2_Setup(void)
 	EPwm2Regs.TBPHS.bit.TBPHS = 0x0000;				// Phase is 0
 	EPwm2Regs.TBCTR = 0x0000;						// Clear counter
 
-	//------------------------------ (CC) Setup Shadow Register£¨CMPA¡¢CMPB£©load on ZERO
+	//------------------------------ (CC) Setup Shadow Registerï¿½ï¿½CMPAï¿½ï¿½CMPBï¿½ï¿½load on ZERO
 	EPwm2Regs.CMPCTL.bit.SHDWAMODE = CC_IMMEDIATE;	// CC_SHADOW, CC_IMMEDIATE
 	EPwm2Regs.CMPCTL.bit.SHDWBMODE = CC_IMMEDIATE;
 /*
@@ -182,7 +182,7 @@ void usr_ePWM2_Setup(void)
 	EPwm2Regs.CMPCTL.bit.LOADAMODE = CC_CTR_ZERO;	// CC_CTR_ZERO, CC_CTR_PRD, CC_CTR_ZERO_PRD, CC_LD_DISABLE
 	EPwm2Regs.CMPCTL.bit.LOADBMODE = CC_CTR_ZERO;	// .LOADBMODE : Hase No Effect in Immediate Mode
 
-	//------------------------------ (CC) Setup Compare values£¨CMPA¡¢CMPB£©
+	//------------------------------ (CC) Setup Compare valuesï¿½ï¿½CMPAï¿½ï¿½CMPBï¿½ï¿½
 	EPwm2Regs.CMPA.bit.CMPA = EPWM_CMP_START;
 	#ifdef	EPWM_TEST_MODE
 	EPwm2Regs.CMPB.bit.CMPB = EPWM_CMP_START + 3968;// ePWM Test Mode ( 50% Pulse Width )
@@ -190,7 +190,7 @@ void usr_ePWM2_Setup(void)
 	EPwm2Regs.CMPB.bit.CMPB = EPWM_CMP_START;
 	#endif
 
-	//------------------------------ (AQ) Setup Actions	   Set Points£ºZRO, PRD, CAU, CAD, CBU, CBD
+	//------------------------------ (AQ) Setup Actions	   Set Pointsï¿½ï¿½ZRO, PRD, CAU, CAD, CBU, CBD
 	EPwm2Regs.AQCTLA.bit.ZRO = AQ_CLEAR;
 	EPwm2Regs.AQCTLA.bit.PRD = AQ_CLEAR;
 	EPwm2Regs.AQCTLA.bit.CAU = AQ_SET;
@@ -212,9 +212,9 @@ void usr_ePWM2_Setup(void)
 
 	//------------------------------ (PC) Setup PWM Chopper
 	EPwm2Regs.PCCTL.bit.CHPEN = 0;					// CHPEN = 1;
-	EPwm2Regs.PCCTL.bit.OSHTWTH = 0xF;				// One-shot pulse width = N ¡Á EPWMCLK*8£»N =£¨0x0~0xF£©
-	EPwm2Regs.PCCTL.bit.CHPFREQ = CHP_DIV8;			// Chopping clock frequency = EPWMCLK/N/8£»N =£¨CHP_DIV1~CHP_DIV8£©
-	EPwm2Regs.PCCTL.bit.CHPDUTY = CHP4_8TH;			// Chopping clock Duty cycle CHP1_8TH£¨12.5%£©~ CHP7_8TH£¨87.5%£©
+	EPwm2Regs.PCCTL.bit.OSHTWTH = 0xF;				// One-shot pulse width = N ï¿½ï¿½ EPWMCLK*8ï¿½ï¿½N =ï¿½ï¿½0x0~0xFï¿½ï¿½
+	EPwm2Regs.PCCTL.bit.CHPFREQ = CHP_DIV8;			// Chopping clock frequency = EPWMCLK/N/8ï¿½ï¿½N =ï¿½ï¿½CHP_DIV1~CHP_DIV8ï¿½ï¿½
+	EPwm2Regs.PCCTL.bit.CHPDUTY = CHP4_8TH;			// Chopping clock Duty cycle CHP1_8THï¿½ï¿½12.5%ï¿½ï¿½~ CHP7_8THï¿½ï¿½87.5%ï¿½ï¿½
 
 	//------------------------------ (TZ) Setup
 
@@ -257,7 +257,7 @@ void usr_ePWM3_Setup(void)
 	EPwm3Regs.TBPHS.bit.TBPHS = 0x0000;				// Phase is 0
 	EPwm3Regs.TBCTR = 0x0000;						// Clear counter
 
-	//------------------------------ (CC) Setup Shadow Register£¨CMPA¡¢CMPB£©load on ZERO
+	//------------------------------ (CC) Setup Shadow Registerï¿½ï¿½CMPAï¿½ï¿½CMPBï¿½ï¿½load on ZERO
 	EPwm3Regs.CMPCTL.bit.SHDWAMODE = CC_IMMEDIATE;	// CC_SHADOW, CC_IMMEDIATE
 	EPwm3Regs.CMPCTL.bit.SHDWBMODE = CC_IMMEDIATE;
 /*
@@ -267,7 +267,7 @@ void usr_ePWM3_Setup(void)
 	EPwm3Regs.CMPCTL.bit.LOADAMODE = CC_CTR_ZERO;	// CC_CTR_ZERO, CC_CTR_PRD, CC_CTR_ZERO_PRD, CC_LD_DISABLE
 	EPwm3Regs.CMPCTL.bit.LOADBMODE = CC_CTR_ZERO;	// .LOADBMODE : Hase No Effect in Immediate Mode
 
-	//------------------------------ (CC) Setup Compare values£¨CMPA¡¢CMPB£©
+	//------------------------------ (CC) Setup Compare valuesï¿½ï¿½CMPAï¿½ï¿½CMPBï¿½ï¿½
 	EPwm3Regs.CMPA.bit.CMPA = EPWM_CMP_START;
 	#ifdef	EPWM_TEST_MODE
 	EPwm3Regs.CMPB.bit.CMPB = EPWM_CMP_START + 5953;// ePWM Test Mode ( 75% Pulse Width )
@@ -275,7 +275,7 @@ void usr_ePWM3_Setup(void)
 	EPwm3Regs.CMPB.bit.CMPB = EPWM_CMP_START;
 	#endif
 
-	//------------------------------ (AQ) Setup Actions	   Set Points£ºZRO, PRD, CAU, CAD, CBU, CBD
+	//------------------------------ (AQ) Setup Actions	   Set Pointsï¿½ï¿½ZRO, PRD, CAU, CAD, CBU, CBD
 	EPwm3Regs.AQCTLA.bit.ZRO = AQ_CLEAR;
 	EPwm3Regs.AQCTLA.bit.PRD = AQ_CLEAR;
 	EPwm3Regs.AQCTLA.bit.CAU = AQ_SET;
@@ -297,9 +297,9 @@ void usr_ePWM3_Setup(void)
 
 	//------------------------------ (PC) Setup PWM Chopper
 	EPwm3Regs.PCCTL.bit.CHPEN = 0;					// CHPEN = 1;
-	EPwm3Regs.PCCTL.bit.OSHTWTH = 0xF;				// One-shot pulse width = N ¡Á EPWMCLK*8£»N =£¨0x0~0xF£©
-	EPwm3Regs.PCCTL.bit.CHPFREQ = CHP_DIV8;			// Chopping clock frequency = EPWMCLK/N/8£»N =£¨CHP_DIV1~CHP_DIV8£©
-	EPwm3Regs.PCCTL.bit.CHPDUTY = CHP4_8TH;			// Chopping clock Duty cycle CHP1_8TH£¨12.5%£©~ CHP7_8TH£¨87.5%£©
+	EPwm3Regs.PCCTL.bit.OSHTWTH = 0xF;				// One-shot pulse width = N ï¿½ï¿½ EPWMCLK*8ï¿½ï¿½N =ï¿½ï¿½0x0~0xFï¿½ï¿½
+	EPwm3Regs.PCCTL.bit.CHPFREQ = CHP_DIV8;			// Chopping clock frequency = EPWMCLK/N/8ï¿½ï¿½N =ï¿½ï¿½CHP_DIV1~CHP_DIV8ï¿½ï¿½
+	EPwm3Regs.PCCTL.bit.CHPDUTY = CHP4_8TH;			// Chopping clock Duty cycle CHP1_8THï¿½ï¿½12.5%ï¿½ï¿½~ CHP7_8THï¿½ï¿½87.5%ï¿½ï¿½
 
 	//------------------------------ (TZ) Setup
 
@@ -345,18 +345,18 @@ void usr_ePWM7_Setup(void)
 	EPwm7Regs.TBPHS.bit.TBPHS = 0x0000;				// Phase is 0
 	EPwm7Regs.TBCTR = 0x0000;						// Clear counter
 
-	//------------------------------ (CC) Setup Shadow Register£¨CMPA¡¢CMPB£©load on ZERO
+	//------------------------------ (CC) Setup Shadow Registerï¿½ï¿½CMPAï¿½ï¿½CMPBï¿½ï¿½load on ZERO
 	EPwm7Regs.CMPCTL.bit.SHDWAMODE = CC_SHADOW;		// CC_SHADOW, CC_IMMEDIATE
 	EPwm7Regs.CMPCTL.bit.SHDWBMODE = CC_SHADOW;
 
 	EPwm7Regs.CMPCTL.bit.LOADAMODE = CC_CTR_ZERO;	// CC_CTR_ZERO, CC_CTR_PRD, CC_CTR_ZERO_PRD, CC_LD_DISABLE
 	EPwm7Regs.CMPCTL.bit.LOADBMODE = CC_CTR_ZERO;	// .LOADBMODE : Hase No Effect in Immediate Mode
 
-	//------------------------------ (CC) Setup Compare values£¨CMPA¡¢CMPB£©
+	//------------------------------ (CC) Setup Compare valuesï¿½ï¿½CMPAï¿½ï¿½CMPBï¿½ï¿½
 	EPwm7Regs.CMPA.bit.CMPA = EPWM7_CMPA_TRIGGER;
 	EPwm7Regs.CMPB.bit.CMPB = EPWM7_CMPB_TRIGGER;
 
-	//------------------------------ (AQ) Setup Actions	   Set Points£ºZRO, PRD, CAU, CAD, CBU, CBD
+	//------------------------------ (AQ) Setup Actions	   Set Pointsï¿½ï¿½ZRO, PRD, CAU, CAD, CBU, CBD
 	EPwm7Regs.AQCTLA.bit.ZRO = AQ_CLEAR;
 	EPwm7Regs.AQCTLA.bit.PRD = AQ_CLEAR;
 	EPwm7Regs.AQCTLA.bit.CAU = AQ_SET;
@@ -378,9 +378,9 @@ void usr_ePWM7_Setup(void)
 
 	//------------------------------ (PC) Setup PWM Chopper
 	EPwm7Regs.PCCTL.bit.CHPEN = 0;					// CHPEN = 1;
-	EPwm7Regs.PCCTL.bit.OSHTWTH = 0xF;				// One-shot pulse width = N ¡Á EPWMCLK*8£»N =£¨0x0~0xF£©
-	EPwm7Regs.PCCTL.bit.CHPFREQ = CHP_DIV8;			// Chopping clock frequency = EPWMCLK/N/8£»N =£¨CHP_DIV1~CHP_DIV8£©
-	EPwm7Regs.PCCTL.bit.CHPDUTY = CHP4_8TH;			// Chopping clock Duty cycle CHP1_8TH£¨12.5%£©~ CHP7_8TH£¨87.5%£©
+	EPwm7Regs.PCCTL.bit.OSHTWTH = 0xF;				// One-shot pulse width = N ï¿½ï¿½ EPWMCLK*8ï¿½ï¿½N =ï¿½ï¿½0x0~0xFï¿½ï¿½
+	EPwm7Regs.PCCTL.bit.CHPFREQ = CHP_DIV8;			// Chopping clock frequency = EPWMCLK/N/8ï¿½ï¿½N =ï¿½ï¿½CHP_DIV1~CHP_DIV8ï¿½ï¿½
+	EPwm7Regs.PCCTL.bit.CHPDUTY = CHP4_8TH;			// Chopping clock Duty cycle CHP1_8THï¿½ï¿½12.5%ï¿½ï¿½~ CHP7_8THï¿½ï¿½87.5%ï¿½ï¿½
 
 	//------------------------------ (TZ) Setup
 
@@ -424,18 +424,18 @@ void usr_ePWM8_Setup(void)
 	EPwm8Regs.TBPHS.bit.TBPHS = 0x0000;				// Phase is 0
 	EPwm8Regs.TBCTR = 0x0000;						// Clear counter
 
-	//------------------------------ (CC) Setup Shadow Register£¨CMPA¡¢CMPB£©load on ZERO
+	//------------------------------ (CC) Setup Shadow Registerï¿½ï¿½CMPAï¿½ï¿½CMPBï¿½ï¿½load on ZERO
 	EPwm8Regs.CMPCTL.bit.SHDWAMODE = CC_SHADOW;		// CC_SHADOW, CC_IMMEDIATE
 	EPwm8Regs.CMPCTL.bit.SHDWBMODE = CC_SHADOW;
 
 	EPwm8Regs.CMPCTL.bit.LOADAMODE = CC_CTR_ZERO;	// CC_CTR_ZERO, CC_CTR_PRD, CC_CTR_ZERO_PRD, CC_LD_DISABLE
 	EPwm8Regs.CMPCTL.bit.LOADBMODE = CC_CTR_ZERO;	// .LOADBMODE : Hase No Effect in Immediate Mode
 
-	//------------------------------ (CC) Setup Compare values£¨CMPA¡¢CMPB£©
+	//------------------------------ (CC) Setup Compare valuesï¿½ï¿½CMPAï¿½ï¿½CMPBï¿½ï¿½
 	EPwm8Regs.CMPA.bit.CMPA = EPWM8_CMPA_TRIGGER;
 	EPwm8Regs.CMPB.bit.CMPB = EPWM8_CMPB_TRIGGER;
 
-	//------------------------------ (AQ) Setup Actions	   Set Points£ºZRO, PRD, CAU, CAD, CBU, CBD
+	//------------------------------ (AQ) Setup Actions	   Set Pointsï¿½ï¿½ZRO, PRD, CAU, CAD, CBU, CBD
 	EPwm8Regs.AQCTLA.bit.ZRO = AQ_CLEAR;
 	EPwm8Regs.AQCTLA.bit.PRD = AQ_CLEAR;
 	EPwm8Regs.AQCTLA.bit.CAU = AQ_SET;
@@ -457,9 +457,9 @@ void usr_ePWM8_Setup(void)
 
 	//------------------------------ (PC) Setup PWM Chopper
 	EPwm8Regs.PCCTL.bit.CHPEN = 0;					// CHPEN = 1;
-	EPwm8Regs.PCCTL.bit.OSHTWTH = 0xF;				// One-shot pulse width = N ¡Á EPWMCLK*8£»N =£¨0x0~0xF£©
-	EPwm8Regs.PCCTL.bit.CHPFREQ = CHP_DIV8;			// Chopping clock frequency = EPWMCLK/N/8£»N =£¨CHP_DIV1~CHP_DIV8£©
-	EPwm8Regs.PCCTL.bit.CHPDUTY = CHP4_8TH;			// Chopping clock Duty cycle CHP1_8TH£¨12.5%£©~ CHP7_8TH£¨87.5%£©
+	EPwm8Regs.PCCTL.bit.OSHTWTH = 0xF;				// One-shot pulse width = N ï¿½ï¿½ EPWMCLK*8ï¿½ï¿½N =ï¿½ï¿½0x0~0xFï¿½ï¿½
+	EPwm8Regs.PCCTL.bit.CHPFREQ = CHP_DIV8;			// Chopping clock frequency = EPWMCLK/N/8ï¿½ï¿½N =ï¿½ï¿½CHP_DIV1~CHP_DIV8ï¿½ï¿½
+	EPwm8Regs.PCCTL.bit.CHPDUTY = CHP4_8TH;			// Chopping clock Duty cycle CHP1_8THï¿½ï¿½12.5%ï¿½ï¿½~ CHP7_8THï¿½ï¿½87.5%ï¿½ï¿½
 
 	//------------------------------ (TZ) Setup
 
@@ -503,18 +503,18 @@ void usr_ePWM9_Setup(void)
 	EPwm9Regs.TBPHS.bit.TBPHS = 0x0000;				// Phase is 0
 	EPwm9Regs.TBCTR = 0x0000;						// Clear counter
 
-	//------------------------------ (CC) Setup Shadow Register£¨CMPA¡¢CMPB£©load on ZERO
+	//------------------------------ (CC) Setup Shadow Registerï¿½ï¿½CMPAï¿½ï¿½CMPBï¿½ï¿½load on ZERO
 	EPwm9Regs.CMPCTL.bit.SHDWAMODE = CC_SHADOW;		// CC_SHADOW, CC_IMMEDIATE
 	EPwm9Regs.CMPCTL.bit.SHDWBMODE = CC_SHADOW;
 
 	EPwm9Regs.CMPCTL.bit.LOADAMODE = CC_CTR_ZERO;	// CC_CTR_ZERO, CC_CTR_PRD, CC_CTR_ZERO_PRD, CC_LD_DISABLE
 	EPwm9Regs.CMPCTL.bit.LOADBMODE = CC_CTR_ZERO;	// .LOADBMODE : Hase No Effect in Immediate Mode
 
-	//------------------------------ (CC) Setup Compare values£¨CMPA¡¢CMPB£©
+	//------------------------------ (CC) Setup Compare valuesï¿½ï¿½CMPAï¿½ï¿½CMPBï¿½ï¿½
 	EPwm9Regs.CMPA.bit.CMPA = EPWM9_CMPA_TRIGGER;
 	EPwm9Regs.CMPB.bit.CMPB = EPWM9_CMPB_TRIGGER;
 
-	//------------------------------ (AQ) Setup Actions	   Set Points£ºZRO, PRD, CAU, CAD, CBU, CBD
+	//------------------------------ (AQ) Setup Actions	   Set Pointsï¿½ï¿½ZRO, PRD, CAU, CAD, CBU, CBD
 	EPwm9Regs.AQCTLA.bit.ZRO = AQ_CLEAR;
 	EPwm9Regs.AQCTLA.bit.PRD = AQ_CLEAR;
 	EPwm9Regs.AQCTLA.bit.CAU = AQ_SET;
@@ -536,9 +536,9 @@ void usr_ePWM9_Setup(void)
 
 	//------------------------------ (PC) Setup PWM Chopper
 	EPwm9Regs.PCCTL.bit.CHPEN = 0;					// CHPEN = 1;
-	EPwm9Regs.PCCTL.bit.OSHTWTH = 0xF;				// One-shot pulse width = N ¡Á EPWMCLK*8£»N =£¨0x0~0xF£©
-	EPwm9Regs.PCCTL.bit.CHPFREQ = CHP_DIV8;			// Chopping clock frequency = EPWMCLK/N/8£»N =£¨CHP_DIV1~CHP_DIV8£©
-	EPwm9Regs.PCCTL.bit.CHPDUTY = CHP4_8TH;			// Chopping clock Duty cycle CHP1_8TH£¨12.5%£©~ CHP7_8TH£¨87.5%£©
+	EPwm9Regs.PCCTL.bit.OSHTWTH = 0xF;				// One-shot pulse width = N ï¿½ï¿½ EPWMCLK*8ï¿½ï¿½N =ï¿½ï¿½0x0~0xFï¿½ï¿½
+	EPwm9Regs.PCCTL.bit.CHPFREQ = CHP_DIV8;			// Chopping clock frequency = EPWMCLK/N/8ï¿½ï¿½N =ï¿½ï¿½CHP_DIV1~CHP_DIV8ï¿½ï¿½
+	EPwm9Regs.PCCTL.bit.CHPDUTY = CHP4_8TH;			// Chopping clock Duty cycle CHP1_8THï¿½ï¿½12.5%ï¿½ï¿½~ CHP7_8THï¿½ï¿½87.5%ï¿½ï¿½
 
 	//------------------------------ (TZ) Setup
 
@@ -585,17 +585,17 @@ void usr_ePWM10_Setup(void)
 	EPwm10Regs.TBPHS.bit.TBPHS = 0x0000;			// Phase is 0
 	EPwm10Regs.TBCTR = 0x0000;						// Clear counter
 
-	//------------------------------ (CC) Setup Shadow Register£¨CMPA¡¢CMPB£©load on ZERO
+	//------------------------------ (CC) Setup Shadow Registerï¿½ï¿½CMPAï¿½ï¿½CMPBï¿½ï¿½load on ZERO
 	EPwm10Regs.CMPCTL.bit.SHDWAMODE = CC_SHADOW;	// CC_SHADOW, CC_IMMEDIATE
 	EPwm10Regs.CMPCTL.bit.SHDWBMODE = CC_SHADOW;
 	EPwm10Regs.CMPCTL.bit.LOADAMODE = CC_CTR_ZERO;	// CC_CTR_ZERO, CC_CTR_PRD, CC_CTR_ZERO_PRD, CC_LD_DISABLE
 	EPwm10Regs.CMPCTL.bit.LOADBMODE = CC_CTR_ZERO;	// .LOADBMODE : Hase No Effect in Immediate Mode
 
-	//------------------------------ (CC) Setup Compare values£¨CMPA¡¢CMPB£©
+	//------------------------------ (CC) Setup Compare valuesï¿½ï¿½CMPAï¿½ï¿½CMPBï¿½ï¿½
 	EPwm10Regs.CMPA.bit.CMPA = EPWM10_CMPA_TRIGGER;
 	EPwm10Regs.CMPB.bit.CMPB = EPWM10_CMPA_TRIGGER;
 
-	//------------------------------ (AQ) Setup Actions	   Set Points£ºZRO, PRD, CAU, CAD, CBU, CBD
+	//------------------------------ (AQ) Setup Actions	   Set Pointsï¿½ï¿½ZRO, PRD, CAU, CAD, CBU, CBD
 	EPwm10Regs.AQCTLA.bit.ZRO = AQ_CLEAR;
 	EPwm10Regs.AQCTLA.bit.PRD = AQ_CLEAR;
 	EPwm10Regs.AQCTLA.bit.CAU = AQ_SET;
@@ -617,9 +617,9 @@ void usr_ePWM10_Setup(void)
 
 	//------------------------------ (PC) Setup PWM Chopper
 	EPwm10Regs.PCCTL.bit.CHPEN = 0;					// CHPEN = 1;
-	EPwm10Regs.PCCTL.bit.OSHTWTH = 0xF;				// One-shot pulse width = N ¡Á EPWMCLK*8£»N =£¨0x0~0xF£©
-	EPwm10Regs.PCCTL.bit.CHPFREQ = CHP_DIV8;		// Chopping clock frequency = EPWMCLK/N/8£»N =£¨CHP_DIV1~CHP_DIV8£©
-	EPwm10Regs.PCCTL.bit.CHPDUTY = CHP4_8TH;		// Chopping clock Duty cycle CHP1_8TH£¨12.5%£©~ CHP7_8TH£¨87.5%£©
+	EPwm10Regs.PCCTL.bit.OSHTWTH = 0xF;				// One-shot pulse width = N ï¿½ï¿½ EPWMCLK*8ï¿½ï¿½N =ï¿½ï¿½0x0~0xFï¿½ï¿½
+	EPwm10Regs.PCCTL.bit.CHPFREQ = CHP_DIV8;		// Chopping clock frequency = EPWMCLK/N/8ï¿½ï¿½N =ï¿½ï¿½CHP_DIV1~CHP_DIV8ï¿½ï¿½
+	EPwm10Regs.PCCTL.bit.CHPDUTY = CHP4_8TH;		// Chopping clock Duty cycle CHP1_8THï¿½ï¿½12.5%ï¿½ï¿½~ CHP7_8THï¿½ï¿½87.5%ï¿½ï¿½
 
 	//------------------------------ (TZ) Setup
 
@@ -666,17 +666,20 @@ __interrupt void ISR_ePWM3(void)
 
 
 	EPwm3Regs.ETCLR.bit.INT = 1;					// Clear INT flag for this timer
-	PieCtrlRegs.PIEACK.all = PIEACK_GROUP3;			// Acknowledge this interrupt to receive more interrupts from group 3	
+	PieCtrlRegs.PIEACK.all = PIEACK_GROUP3;			// Acknowledge this interrupt to receive more interrupts from group 3
 }
 
 //--------------------------------------------------------------------------------
 __interrupt void ISR_ePWM10(void)
 {
 	#ifndef	EPWM_TEST_MODE							// Do Not Renew Pulse Width
-	ePwm_width_2();
+	#ifdef	POWER_MODE_PARALLEL
+	ePwm_width_P();									// Output Stage Parallel Connection
+	#else
+	ePwm_width_S();									// Output Stage Serial Connection
+	#endif
 	#endif
 
 	EPwm10Regs.ETCLR.bit.INT = 1;					// Clear INT flag for this timer
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP3;			// Acknowledge this interrupt to receive more interrupts from group 3
 }
-

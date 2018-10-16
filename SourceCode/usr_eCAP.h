@@ -1,9 +1,9 @@
 
 //--------------------------------------------------------------------------------
 
-#define		CAP_GPIO_UAC_A			32				// CAP IO
-#define		CAP_GPIO_UAC_B			33
-#define		CAP_GPIO_UAC_C			34
+#define		CAP_GPIO_UAC_A			34				// Capture Input for UiA/B/C
+#define		CAP_GPIO_UAC_B			35
+#define		CAP_GPIO_UAC_C			36				// Older HardWare Version Use : 32,33,34
 
 //--------------------------------------------------------------------------------
 
@@ -27,5 +27,3 @@ extern	void usr_eCAP3_Setup();
 extern __interrupt void ISR_eCAP1(void);
 extern __interrupt void ISR_eCAP2(void);
 extern __interrupt void ISR_eCAP3(void);
-
-

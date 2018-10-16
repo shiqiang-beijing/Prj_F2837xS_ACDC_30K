@@ -24,20 +24,27 @@ volatile	float	Rate_UiB_Pwm = 2.50;
 volatile	float	Rate_UiC_Pwm = 2.50;
 
 //--------------------------------------------------------------------------------
+volatile	Uint16	Bias_ADC_UAB = 2064;			// Replace former Macro : ADC_ZERO_UiA in file usr_ADC.h
+volatile	Uint16	Bias_ADC_UBC = 2069;			// VCM=1.5V -> 2047 ( the Theoretical VCM Value )
+volatile	Uint16	Bias_ADC_UCA = 2064;
 													// Ratio Coefficient for Calculation : RMS_U_AC
-volatile	float	Rate_RMS_UAB = 0.4009;//0.2925; //0.3791-TI; //0.3821-0420; //0.3355-0404;
-volatile	float	Rate_RMS_UBC = 0.3995;//0.2958; //0.3710-TI; //0.3739-0420; //0.3360-0404;
-volatile	float	Rate_RMS_UCA = 0.3973;//0.3366; //0.3693-TI; //0.3722-0420; //0.3330-0404;
+volatile	float	Rate_RMS_UAB = 0.3962;//0.2925; //0.3791-TI; //0.3821-0420; //0.3355-0404;
+volatile	float	Rate_RMS_UBC = 0.4011;//0.2958; //0.3710-TI; //0.3739-0420; //0.3360-0404;
+volatile	float	Rate_RMS_UCA = 0.3949;//0.3366; //0.3693-TI; //0.3722-0420; //0.3330-0404;
 
-volatile	float	Rate_RMS_IAB = 0.0365;			// Ratio Coefficient for Calculation : RMS_I_AC
-volatile	float	Rate_RMS_IBC = 0.0360;
-volatile	float	Rate_RMS_ICA = 0.0360;
+volatile	Uint16	Bias_ADC_IAB = 2043;			// Replace former Macro : ADC_ZERO_IiA in file usr_ADC.h
+volatile	Uint16	Bias_ADC_IBC = 2044;			// VCM=1.5V -> 2047 ( the Theoretical VCM Value )
+volatile	Uint16	Bias_ADC_ICA = 2045;
 
-volatile	float	Slope_RMS_UDC = 0.1995;			// Slope of Computational Formula : Uout
-volatile	float	Apart_RMS_UDC = 139.09;			// Apart of Computational Formula : Uout
+volatile	float	Rate_RMS_IAB = 0.3653;			// Ratio Coefficient for Calculation : RMS_I_AC
+volatile	float	Rate_RMS_IBC = 0.3602;
+volatile	float	Rate_RMS_ICA = 0.3601;
 
-volatile	float	Slope_RMS_IDC = 0.175;			// Slope of Computational Formula : Iout
-volatile	float	Apart_RMS_IDC = 12.57;			// Apart of Computational Formula : Iout
+volatile	float	Slope_RMS_UDC = 0.4940;			// Slope of Computational Formula : Uout
+volatile	float	Apart_RMS_UDC = 307.51;			// Apart of Computational Formula : Uout
+
+volatile	float	Slope_RMS_IDC = 0.1752;			// Slope of Computational Formula : Iout
+volatile	float	Apart_RMS_IDC = 112.57;			// Apart of Computational Formula : Iout
 
 //--------------------------------------------------------------------------------
 volatile	Uint16	ePwm_Width_A = EPWM_CMP_MIN;
@@ -51,7 +58,7 @@ volatile	Uint16	ePwm_Width_Max = EPWM_CMP_MAX;
 volatile	Uint16	ePwm_Width_Index = 0;
 volatile	Uint16	ePwm_Width_Full = 0;
 
-volatile	float	ePwm_DutyCycle = 0;				// 100 times of Duty Cycle
+volatile	Uint16	ePwm_DutyCycle = 0;				// 100 times of Duty Cycle
 
 //--------------------------------------------------------------------------------
 // System Parameters								Time
@@ -64,7 +71,7 @@ volatile	Uint16	WorkingTime_H = 0;				// Hour
 // System Parameters								DC
 //--------------------------------------------------------------------------------
 float	Uo1 = 0;									// Voltage of DC Output
-float	Uo2 = 0;									// Voltage of DC Output Filter
+float	Uo2 = 0;									// Voltage of DC Output ( Filter Outside )
 Uint16	Uo2_ADC = 0;
 
 float	Uo1_Avg[RMS_AVG_NUM_UDC];					// Voltage of DC Output Array ( For Average Calculation )
@@ -168,7 +175,7 @@ volatile	Uint32	CapData_UiC_Error = 0;
 //--------------------------------------------------------------------------------
 // Sampled Data : ADC
 //--------------------------------------------------------------------------------
-volatile	Uint16	UiA_Trans = 0;					// ADC Sampled Data 
+volatile	Uint16	UiA_Trans = 0;					// ADC Sampled Data
 volatile	Uint16	UiB_Trans = 0;
 volatile	Uint16	UiC_Trans = 0;
 
@@ -221,11 +228,9 @@ volatile	Uint16	AdcResult_Io_Index = 0;
 volatile	Uint16	AdcBuffer_Io_Full = 0;
 
 //--------------------------------------------------------------------------------
-// Data Table
+// Data Buffer SCI-B
 //--------------------------------------------------------------------------------
-volatile	float	Table_Control[TABLE_SIZE_SIN];
-
-const		float	Table_Original[TABLE_SIZE_SIN];
-
-
-
+volatile	char	SCIB_RxBuf[18];
+volatile    Uint16  SCIB_RxCnt = 0;
+volatile    Uint16  SCIB_RxGet = 0;					// SCIB_Rx Input Frame Terminator Received
+volatile    Uint16  SCIB_SetupGet = 0;				// SCIB_Rx Setup Command Received

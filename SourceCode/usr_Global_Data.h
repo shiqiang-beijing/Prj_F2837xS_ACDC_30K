@@ -3,19 +3,27 @@
 // Debug Switch
 //--------------------------------------------------------------------------------
 
-#ifdef		_RAM_DEBUG									// Debug Mode
+//---------- For Debug Configration ----------
 
-#define		VCM_TEST_MODE								// With 0 input for UiA/B/C, Read UiA_Rms, UiA_Rms = ADC_ZERO_UiA
-														// With 0 input for Uo1/Uo2, Read Uo1/Uo2, Uo1/Uo2 = ADC_ZERO_Uo1/Uo2
-#define		BUZZER_NOT_USE								// No Beeper
+#ifdef		_RAM_DEBUG							// Debug Mode
+
+#define		VCM_TEST_MODE						// With 0 input for UiA_B_C, Read UiA_Rms, UiA_Rms = ADC_ZERO_UiA
+												// With 0 input for Uo1/Uo2, Read Uo1/Uo2, Uo1/Uo2 = ADC_ZERO_Uo1/Uo2
+#define		BUZZER_NOT_USE						// No Beeper
 
 #endif
 
+//---------- For Release Configration ----------
+
 //#define		VCM_TEST_MODE
 
-//#define		EPWM_TEST_MODE								// 1: 244A OE1 Enable; 2: ePWM_1~ePWM_3 Pulse Width Fixed Value
+//#define		EPWM_TEST_MODE					// 1: 244A OE1 Enable; 2: ePWM_1~ePWM_3 Pulse Width Fixed Value
 
-//#define		BUZZER_NOT_USE								// No Beeper
+#define		BUZZER_NOT_USE						// No Beeper
+
+#define     POWER_MODE_PARALLEL                 // Parallel Mode ( Serial Mode -> Cancel the Defination )
+
+#define     SCIB_MONITOR                        // SCIB Communicate wite Monitor
 
 //--------------------------------------------------------------------------------
 // Compiling Parameter
@@ -24,11 +32,8 @@
 //
 #define		BUFFER_SIZE_UAC		504
 #define		BUFFER_SIZE_IAC		252
-//
 #define		BUFFER_SIZE_UDC		100
 #define		BUFFER_SIZE_IDC		100
-//
-#define		TABLE_SIZE_SIN		252
 //
 #endif
 
@@ -36,11 +41,8 @@
 //
 #define		BUFFER_SIZE_UAC		 50
 #define		BUFFER_SIZE_IAC		 25
-//
 #define		BUFFER_SIZE_UDC		 10
 #define		BUFFER_SIZE_IDC		 10
-//
-#define		TABLE_SIZE_SIN		 25
 //
 #endif
 
@@ -53,6 +55,14 @@
 
 #define		WORKING_VALUE_UAC	30						// Start Working
 
+//--------------------------------------------------------------------------------
+// ADC VCM Limitation
+//--------------------------------------------------------------------------------
+#define		ADC_MIN_UAC_ZERO	1987					// VCM=1.5V  -> 2047		Theoretical VCM Value
+#define		ADC_MAX_UAC_ZERO	2107					// Tolerance -> 3.0%
+
+#define		ADC_MIN_IAC_ZERO	1987					// VCM=1.5V  -> 2047		Theoretical VCM Value
+#define		ADC_MAX_IAC_ZERO	2107					// Tolerance -> 3.0%
 
 //--------------------------------------------------------------------------------
 // System Control									Function Switch
@@ -72,9 +82,17 @@ extern	volatile	float	Rate_UiB_Pwm;
 extern	volatile	float	Rate_UiC_Pwm;
 
 //--------------------------------------------------------------------------------
+extern	volatile	Uint16	Bias_ADC_UAB;
+extern	volatile	Uint16	Bias_ADC_UBC;
+extern	volatile	Uint16	Bias_ADC_UCA;
+
 extern	volatile	float	Rate_RMS_UAB;
 extern	volatile	float	Rate_RMS_UBC;
 extern	volatile	float	Rate_RMS_UCA;
+
+extern	volatile	Uint16	Bias_ADC_IAB;
+extern	volatile	Uint16	Bias_ADC_IBC;
+extern	volatile	Uint16	Bias_ADC_ICA;
 
 extern	volatile	float	Rate_RMS_IAB;
 extern	volatile	float	Rate_RMS_IBC;
@@ -98,7 +116,7 @@ extern				float	ePwm_Width_Arry[];
 extern	volatile	Uint16	ePwm_Width_Index;
 extern	volatile	Uint16	ePwm_Width_Full;
 
-extern	volatile	float	ePwm_DutyCycle;
+extern	volatile	Uint16	ePwm_DutyCycle;
 
 //--------------------------------------------------------------------------------
 // System Parameters								Time
@@ -268,11 +286,9 @@ extern	volatile	Uint16	AdcResult_Io_Index;
 extern	volatile	Uint16	AdcBuffer_Io_Full;
 
 //--------------------------------------------------------------------------------
-// Data Table
+// Data Buffer SCI-B
 //--------------------------------------------------------------------------------
-extern	volatile	float	Table_Control[];
-
-extern	const		float	Table_Original[];
-
-
-
+extern  volatile	char	SCIB_RxBuf[];
+extern  volatile    Uint16  SCIB_RxCnt;
+extern  volatile    Uint16  SCIB_RxGet;
+extern  volatile    Uint16  SCIB_SetupGet;

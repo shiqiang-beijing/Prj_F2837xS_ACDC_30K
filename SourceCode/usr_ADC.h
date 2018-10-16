@@ -63,20 +63,7 @@
 #define		ADC_CHANNEL_Tmp2	4			// D4
 
 //--------------------------------------------------------------------------------
-// ADC-ZERO
-//--------------------------------------------------------------------------------
-#define		ADC_ZERO_UiA		2064//2047		// VCM=1.5V -> 2047		Theoretical VCM Value
-#define		ADC_ZERO_UiB		2067//2048
-#define		ADC_ZERO_UiC		2063//2049
-
-#define		ADC_ZERO_IiA		2051		// VCM=1.5V -> 2047		Theoretical VCM Value
-#define		ADC_ZERO_IiB		2051
-#define		ADC_ZERO_IiC		2050
-
-#define		ADC_ZERO_Uo1		 683		// OP_0=0.5V -> 683		Theoretical Zero_Vin Value ( Vin=0, Out_Op=0.5 )
-#define		ADC_ZERO_Uo2		 683
-#define		ADC_ZERO_Io			 683		// OP_0=0.5V -> 683		Theoretical Zero_Vin Value
-
+// ADC Functions
 //--------------------------------------------------------------------------------
 extern void usr_AdcA_Initial(void);
 extern void usr_AdcB_Initial(void);
@@ -110,4 +97,3 @@ extern __interrupt void ISR_AdcD_INT1(void);
 extern __interrupt void ISR_AdcD_INT2(void);
 extern __interrupt void ISR_AdcD_INT3(void);
 extern __interrupt void ISR_AdcD_INT4(void);
-
