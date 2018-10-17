@@ -371,7 +371,7 @@ void main(void)
 			float	tmpData = 0;
 			tmpData = Avg_Float(ePwm_Width_Arry,WDH_AVG_NUM_PWM);
 
-			ePwm_DutyCycle = ( tmpData / EPWM_CMP_MAX ) * 100;
+			ePwm_DutyCycle = ( tmpData / ePwm_Width_Max ) * 100;
 		}
 
 		//------------------------------ Power-In & Power-Out

@@ -7,15 +7,15 @@
 
 #ifdef		_RAM_DEBUG							// Debug Mode
 
-#define		VCM_TEST_MODE						// With 0 input for UiA_B_C, Read UiA_Rms, UiA_Rms = ADC_ZERO_UiA
-												// With 0 input for Uo1/Uo2, Read Uo1/Uo2, Uo1/Uo2 = ADC_ZERO_Uo1/Uo2
+#define		VCM_TEST_MODE						// With 0 input for UiA_B_C, if Read UiA_Rms, UiA_Rms = ADC_ZERO_UiA
+												// With 0 input for Uo1/Uo2, if Read Uo1/Uo2, Uo1/Uo2 = ADC_ZERO_Uo1/Uo2
 #define		BUZZER_NOT_USE						// No Beeper
 
 #endif
 
 //---------- For Release Configration ----------
 
-//#define		VCM_TEST_MODE
+//#define		VCM_TEST_MODE                   // the Same as above
 
 //#define		EPWM_TEST_MODE					// 1: 244A OE1 Enable; 2: ePWM_1~ePWM_3 Pulse Width Fixed Value
 
@@ -48,7 +48,7 @@
 
 #define		BUFFER_SIZE_CAP		16						// Divide 2^4, Ease Average Value Calculation
 
-#define		WDH_AVG_NUM_PWM		10
+#define		WDH_AVG_NUM_PWM		20
 #define		RMS_AVG_NUM_UDC		6						// Average Time of UDC Vaule
 #define		RMS_AVG_NUM_UAC		6						// Average Time of UAC RMS Vaule
 #define		RMS_AVG_NUM_IAC		6						// Average Time of IAC RMS Vaule

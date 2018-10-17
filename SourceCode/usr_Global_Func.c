@@ -537,9 +537,9 @@ void ePwm_width_P(void)										// Run Time in RAM ( CPU_Cycle ): 131 ( No  Min
 		ePwm_Width_Full = 1;
 	}
 
-	if( Width_Accumulator > EPWM_CMP_MAX )					// Max ePwm_Width Limit
+	if( Width_Accumulator > ePwm_Width_Max )				// Max ePwm_Width Limit
 	{
-		Width_RateAdj = EPWM_CMP_MAX / Width_Accumulator;
+		Width_RateAdj = ePwm_Width_Max / Width_Accumulator;
 		ePwm_Width_A = Width_RateAdj * ePwm_Width_A;
 		ePwm_Width_B = Width_RateAdj * ePwm_Width_B;
 		ePwm_Width_C = Width_RateAdj * ePwm_Width_C;
@@ -551,7 +551,7 @@ void ePwm_width_P(void)										// Run Time in RAM ( CPU_Cycle ): 131 ( No  Min
 	{
 		if( ePwm_Width_B < ePwm_Width_C )									// A < B < C	( Section 6 )  A-D B-U C-D
 		{
-			if( ePwm_Width_A < EPWM_CMP_MIN )								// A Too Small ?
+			if( ePwm_Width_A < ePwm_Width_Min )								// A Too Small ?
 			{
 				ePwm_On_A  = EPWM_CMP_START;
 				ePwm_Off_A = EPWM_CMP_START;
@@ -578,7 +578,7 @@ void ePwm_width_P(void)										// Run Time in RAM ( CPU_Cycle ): 131 ( No  Min
 		{
 			if( ePwm_Width_A < ePwm_Width_C)								// A < C < B	( Section 1 )  A-U C-D B-U
 			{
-				if( ePwm_Width_A < EPWM_CMP_MIN )							// A Too Small ?
+				if( ePwm_Width_A < ePwm_Width_Min )							// A Too Small ?
 				{
 					ePwm_On_A  = EPWM_CMP_START;
 					ePwm_Off_A = EPWM_CMP_START;
@@ -603,7 +603,7 @@ void ePwm_width_P(void)										// Run Time in RAM ( CPU_Cycle ): 131 ( No  Min
 			}
 			else															// C < A < B	( Section 2 )  C-D A-U B-D
 			{
-				if( ePwm_Width_C < EPWM_CMP_MIN )							// C Too Small ?
+				if( ePwm_Width_C < ePwm_Width_Min )							// C Too Small ?
 				{
 					ePwm_On_C  = EPWM_CMP_START;
 					ePwm_Off_C = EPWM_CMP_START;
@@ -632,7 +632,7 @@ void ePwm_width_P(void)										// Run Time in RAM ( CPU_Cycle ): 131 ( No  Min
 	{
 		if( ePwm_Width_A < ePwm_Width_C )									// B < A < C	( Section 5 )  B-U A-D C-U
 		{
-			if( ePwm_Width_B < EPWM_CMP_MIN )								// B Too Small ?
+			if( ePwm_Width_B < ePwm_Width_Min )								// B Too Small ?
 			{
 				ePwm_On_B  = EPWM_CMP_START;
 				ePwm_Off_B = EPWM_CMP_START;
@@ -659,7 +659,7 @@ void ePwm_width_P(void)										// Run Time in RAM ( CPU_Cycle ): 131 ( No  Min
 		{
 			if( ePwm_Width_B < ePwm_Width_C )								// B < C < A	( Section 4)  B-D C-U A-D
 			{
-				if( ePwm_Width_B < EPWM_CMP_MIN )							// B Too Small ?
+				if( ePwm_Width_B < ePwm_Width_Min )							// B Too Small ?
 				{
 					ePwm_On_B  = EPWM_CMP_START;
 					ePwm_Off_B = EPWM_CMP_START;
@@ -684,7 +684,7 @@ void ePwm_width_P(void)										// Run Time in RAM ( CPU_Cycle ): 131 ( No  Min
 			}
 			else															// C < B < A	( Section 3 )  C-U B-D A-U
 			{
-				if( ePwm_Width_C < EPWM_CMP_MIN )							// C Too Small ?
+				if( ePwm_Width_C < ePwm_Width_Min )							// C Too Small ?
 				{
 					ePwm_On_C  = EPWM_CMP_START;
 					ePwm_Off_C = EPWM_CMP_START;
@@ -751,9 +751,9 @@ void ePwm_width_S(void)										// Run Time in RAM ( CPU_Cycle ): 131 ( No  Min
 		ePwm_Width_Full = 1;
 	}
 
-	if( Width_Accumulator > EPWM_CMP_MAX )					// Max ePwm_Width Limit
+	if( Width_Accumulator > ePwm_Width_Max )				// Max ePwm_Width Limit
 	{
-		Width_RateAdj = EPWM_CMP_MAX / Width_Accumulator;
+		Width_RateAdj = ePwm_Width_Max / Width_Accumulator;
 		ePwm_Width_A = Width_RateAdj * ePwm_Width_A;
 		ePwm_Width_B = Width_RateAdj * ePwm_Width_B;
 		ePwm_Width_C = Width_RateAdj * ePwm_Width_C;
