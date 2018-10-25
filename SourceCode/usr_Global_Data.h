@@ -19,11 +19,11 @@
 
 //#define		EPWM_TEST_MODE					// 1: 244A OE1 Enable; 2: ePWM_1~ePWM_3 Pulse Width Fixed Value
 
-#define		BUZZER_NOT_USE						// No Beeper
+//#define		BUZZER_NOT_USE						// No Beeper
 
 #define     POWER_MODE_PARALLEL                 // Parallel Mode ( Serial Mode -> Cancel the Defination )
 
-#define     SCIB_MONITOR                        // SCIB Communicate wite Monitor
+//#define     SCIB_MONITOR                        // SCIB Communicate wite Monitor
 
 //--------------------------------------------------------------------------------
 // Compiling Parameter

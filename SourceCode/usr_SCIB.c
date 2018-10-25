@@ -20,6 +20,45 @@ char	TmpArray_16[16] = {81,48,49,0,0,0,0,0,0,0,0,0,0,0,0,'\0'};	// Default Start
 //--------------------------------------------------------------------------------
 // 配置：开启 Rx 中断，RxBuff 长度=1（应对变化长度的输入帧）；采用 16-Level FIFO 进行短帧数据发送
 //--------------------------------------------------------------------------------
+#ifndef	SCIB_MONITOR
+void usr_SCIB_Setup(void)
+{
+	// SCIA GPIO Select
+	GPIO_SetupPinMux(SCIB_TXD, GPIO_MUX_CPU1, 3);
+	GPIO_SetupPinOptions(SCIB_TXD, GPIO_INPUT, GPIO_PUSHPULL);
+	GPIO_SetupPinMux(SCIB_RXD, GPIO_MUX_CPU1, 3);
+	GPIO_SetupPinOptions(SCIB_RXD, GPIO_OUTPUT, GPIO_ASYNC);
+
+	GPIO_SetupPinMux(SCIB_RTS_485, GPIO_MUX_CPU1, 0);
+	GPIO_SetupPinOptions(SCIB_RTS_485, GPIO_OUTPUT, GPIO_PUSHPULL);
+
+	// FIFO Setup
+	ScibRegs.SCIFFTX.all = 0xE040;			// 0xE000 -> SCI Reset,  SCI FIFO enable,  Transmit FIFO Rest
+											// 0x0040 -> Clear Transmit FIFO
+	ScibRegs.SCIFFRX.all = 0x2044;			// 0x2000 -> Receive FIFO reset
+											// 0x0044 -> Receive FIFO Interrupt Clear, Receive FIFO Interrupt Level Bits = 0x04
+	ScibRegs.SCIFFCT.all = 0x0;				// FIFO transfer delay -> 0
+
+	ScibRegs.SCIFFTX.bit.TXFFIENA = 0;		// TXINT Disable
+	ScibRegs.SCIFFRX.bit.RXFFIENA = 0;		// RXINT Disable
+
+	// General Setup
+	ScibRegs.SCICCR.all = 0x0007;			// 1 Stop-bit, No Loopback, No Parity, 8-Bit Char, Async Mode, Idle-line protocol
+
+	ScibRegs.SCICTL1.all = 0x0003;			// TXENA = 1;  RXENA = 1;   Internal SCICLK, Disable RX ERR, SLEEP, TXWAKE
+
+//	ScibRegs.SCICTL2.all = 0x0003;			// RX/BKINTENA = 1; TXINTENA = 1;
+
+//	ScibRegs.SCIHBAUD.all = 0x0002;			// Baud-Rate = 9600		@ LSPCLK = 50 MHz (SYSCLK = 200 MHz)
+//	ScibRegs.SCILBAUD.all = 0x008A;
+//	ScibRegs.SCIHBAUD.all = 0x0001;			// Baud-Rate = 19200
+//	ScibRegs.SCILBAUD.all = 0x0045;
+	ScibRegs.SCIHBAUD.all = 0x0000;			// Baud-Rate = 115200
+	ScibRegs.SCILBAUD.all = 0x0035;
+
+	ScibRegs.SCICTL1.all = 0x0023;			// Relinquish SCI from Reset
+}
+#else
 void usr_SCIB_Setup(void)
 {
 	// SCI Setup : GPIO
@@ -68,6 +107,7 @@ void usr_SCIB_Setup(void)
 	ScibRegs.SCIFFTX.bit.TXFIFORESET = 1;	// Re-enable Transmit FIFO operation
 	ScibRegs.SCIFFRX.bit.RXFIFORESET = 1;	// Re-enable Receive FIFO operation
 }
+#endif
 
 void usr_SCIB_485_En(void)
 {
@@ -556,7 +596,7 @@ void usr_SCIB_InfoStart(void)						// Welcome information
 void usr_SCIB_InfoDebug(void)						// Running information
 {
 	//------------------------------ 		// Working Time ( ** H, ** M, ** S )
-	SCIB_msg = "\r\n Work Time : \0";
+	SCIB_msg = "\r\n Working Time : \0";
 	usr_SCIB_MsgPut(SCIB_msg);
 
 	Uint16_to_ASCII_2P(WorkingTime_H, TmpArray_3);
@@ -577,7 +617,7 @@ void usr_SCIB_InfoDebug(void)						// Running information
 	SCIB_msg = "\r\n\0";					// Blank Line
 	usr_SCIB_MsgPut(SCIB_msg);
 
-	//------------------------------ 		// UiA, UiB, UiC
+	//------------------------------ 		// AC Voltage : UiA, UiB, UiC
 	SCIB_msg = "\r\n VacIn-AB  : \0";
 	float_to_ASCII_3P1(UiA_Rms, TmpArray_6);
 	usr_SCIB_MsgPut(SCIB_msg);
@@ -596,51 +636,7 @@ void usr_SCIB_InfoDebug(void)						// Running information
 	SCIB_msg = "\r\n\0";					// Blank Line
 	usr_SCIB_MsgPut(SCIB_msg);
 
-	//------------------------------ 		// Frq of UiA, UiB UiC
-	SCIB_msg = "\r\n F-Vin-AB  : \0";
-	float_to_ASCII_3P1(UiA_Frq, TmpArray_6);
-	usr_SCIB_MsgPut(SCIB_msg);
-	usr_SCIB_MsgPut(TmpArray_6);
-
-	SCIB_msg = "\r\n F-Vin-BC  : \0";
-	float_to_ASCII_3P1(UiB_Frq, TmpArray_6);
-	usr_SCIB_MsgPut(SCIB_msg);
-	usr_SCIB_MsgPut(TmpArray_6);
-
-	SCIB_msg = "\r\n F-Vin-CA  : \0";
-	float_to_ASCII_3P1(UiC_Frq, TmpArray_6);
-	usr_SCIB_MsgPut(SCIB_msg);
-	usr_SCIB_MsgPut(TmpArray_6);
-
-	SCIB_msg = "\r\n\0";					// Blank Line
-	usr_SCIB_MsgPut(SCIB_msg);
-
-	//------------------------------ 		// Frq Error Times
-	SCIB_msg = "\r\n F-Err-AB  : \0";
-	Uint32_to_ASCII_7P(CapData_UiA_Error, TmpArray_8);
-	usr_SCIB_MsgPut(SCIB_msg);
-	usr_SCIB_MsgPut(TmpArray_8);
-	SCIB_msg = " Times. \0";
-	usr_SCIB_MsgPut(SCIB_msg);
-
-	SCIB_msg = "\r\n F-Err-BC  : \0";
-	Uint32_to_ASCII_7P(CapData_UiB_Error, TmpArray_8);
-	usr_SCIB_MsgPut(SCIB_msg);
-	usr_SCIB_MsgPut(TmpArray_8);
-	SCIB_msg = " Times. \0";
-	usr_SCIB_MsgPut(SCIB_msg);
-
-	SCIB_msg = "\r\n F-Err-CA  : \0";
-	Uint32_to_ASCII_7P(CapData_UiC_Error, TmpArray_8);
-	usr_SCIB_MsgPut(SCIB_msg);
-	usr_SCIB_MsgPut(TmpArray_8);
-	SCIB_msg = " Times. \0";
-	usr_SCIB_MsgPut(SCIB_msg);
-
-	SCIB_msg = "\r\n\0";					// Blank Line
-	usr_SCIB_MsgPut(SCIB_msg);
-
-	//------------------------------ 		// IiA, IiB, IiC
+	//------------------------------ 		// AC Current : IiA, IiB, IiC
 	SCIB_msg = "\r\n IacIn-A   : \0";
 	float_to_ASCII_3P1(IiA_Rms, TmpArray_6);
 	usr_SCIB_MsgPut(SCIB_msg);
@@ -659,6 +655,50 @@ void usr_SCIB_InfoDebug(void)						// Running information
 	SCIB_msg = "\r\n\0";					// Blank Line
 	usr_SCIB_MsgPut(SCIB_msg);
 
+	//------------------------------ 		// Frequency of AC Voltage : UiA, UiB UiC
+	SCIB_msg = "\r\n FacIn-AB  : \0";
+	float_to_ASCII_3P1(UiA_Frq, TmpArray_6);
+	usr_SCIB_MsgPut(SCIB_msg);
+	usr_SCIB_MsgPut(TmpArray_6);
+
+	SCIB_msg = "\r\n FacIn-BC  : \0";
+	float_to_ASCII_3P1(UiB_Frq, TmpArray_6);
+	usr_SCIB_MsgPut(SCIB_msg);
+	usr_SCIB_MsgPut(TmpArray_6);
+
+	SCIB_msg = "\r\n FacIn-CA  : \0";
+	float_to_ASCII_3P1(UiC_Frq, TmpArray_6);
+	usr_SCIB_MsgPut(SCIB_msg);
+	usr_SCIB_MsgPut(TmpArray_6);
+
+	SCIB_msg = "\r\n\0";					// Blank Line
+	usr_SCIB_MsgPut(SCIB_msg);
+
+	//------------------------------ 		// Frequency Error Times
+	SCIB_msg = "\r\n Error_F-AB: \0";
+	Uint32_to_ASCII_7P(CapData_UiA_Error, TmpArray_8);
+	usr_SCIB_MsgPut(SCIB_msg);
+	usr_SCIB_MsgPut(TmpArray_8);
+	SCIB_msg = " Times. \0";
+	usr_SCIB_MsgPut(SCIB_msg);
+
+	SCIB_msg = "\r\n Error_F-BC: \0";
+	Uint32_to_ASCII_7P(CapData_UiB_Error, TmpArray_8);
+	usr_SCIB_MsgPut(SCIB_msg);
+	usr_SCIB_MsgPut(TmpArray_8);
+	SCIB_msg = " Times. \0";
+	usr_SCIB_MsgPut(SCIB_msg);
+
+	SCIB_msg = "\r\n Error_F-CA: \0";
+	Uint32_to_ASCII_7P(CapData_UiC_Error, TmpArray_8);
+	usr_SCIB_MsgPut(SCIB_msg);
+	usr_SCIB_MsgPut(TmpArray_8);
+	SCIB_msg = " Times. \0";
+	usr_SCIB_MsgPut(SCIB_msg);
+
+	SCIB_msg = "\r\n\0";					// Blank Line
+	usr_SCIB_MsgPut(SCIB_msg);
+
 	//------------------------------ 		// Uo1, Uo2, Iout, DutyCycle
 	/*
 	SCIB_msg = "\r\nVDC-Uo1   : \0";
@@ -667,22 +707,25 @@ void usr_SCIB_InfoDebug(void)						// Running information
 	usr_SCIB_MsgPut(TmpArray_6);
 	*/
 
-	SCIB_msg = "\r\n Udc-ADC   : \0";					// ADC-Uo2
+	SCIB_msg = "\r\n Udc-ADC   : \0";					// Uo2 : ADC
 	Uint16_to_ASCII_4P(Uo2_ADC, TmpArray_5);
 	usr_SCIB_MsgPut(SCIB_msg);
 	usr_SCIB_MsgPut(TmpArray_5);
 
-	SCIB_msg = "\r\n Udc-RMS   : \0";
+	SCIB_msg = "\r\n Udc-RMS   : \0";					// Uo2 : RMS
 	float_to_ASCII_3P1(Uo2, TmpArray_6);
 	usr_SCIB_MsgPut(SCIB_msg);
 	usr_SCIB_MsgPut(TmpArray_6);
 
-	SCIB_msg = "\r\n Idc-ADC   : \0";					// ADC-Iout
+	SCIB_msg = "\r\n\0";					// Blank Line
+	usr_SCIB_MsgPut(SCIB_msg);
+
+	SCIB_msg = "\r\n Idc-ADC   : \0";					// Iout : ADC
 	Uint16_to_ASCII_4P(Iout_ADC, TmpArray_5);
 	usr_SCIB_MsgPut(SCIB_msg);
 	usr_SCIB_MsgPut(TmpArray_5);
 
-	SCIB_msg = "\r\n Idc-RMS   : \0";
+	SCIB_msg = "\r\n Idc-RMS   : \0";					// Iout : RMS
 	float_to_ASCII_3P1(Iout, TmpArray_6);
 	usr_SCIB_MsgPut(SCIB_msg);
 	usr_SCIB_MsgPut(TmpArray_6);

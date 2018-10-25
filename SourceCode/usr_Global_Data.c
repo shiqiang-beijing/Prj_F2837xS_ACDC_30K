@@ -24,13 +24,13 @@ volatile	float	Rate_UiB_Pwm = 2.50;
 volatile	float	Rate_UiC_Pwm = 2.50;
 
 //--------------------------------------------------------------------------------
-volatile	Uint16	Bias_ADC_UAB = 2064;			// Replace former Macro : ADC_ZERO_UiA in file usr_ADC.h
-volatile	Uint16	Bias_ADC_UBC = 2069;			// VCM=1.5V -> 2047 ( the Theoretical VCM Value )
-volatile	Uint16	Bias_ADC_UCA = 2064;
+volatile	Uint16	Bias_ADC_UAB = 2066;			// Replace former Macro : ADC_ZERO_UiA in file usr_ADC.h
+volatile	Uint16	Bias_ADC_UBC = 2062;			// VCM=1.5V -> 2047 ( the Theoretical VCM Value )
+volatile	Uint16	Bias_ADC_UCA = 2065;
 													// Ratio Coefficient for Calculation : RMS_U_AC
-volatile	float	Rate_RMS_UAB = 0.3962;//0.2925; //0.3791-TI; //0.3821-0420; //0.3355-0404;
-volatile	float	Rate_RMS_UBC = 0.4011;//0.2958; //0.3710-TI; //0.3739-0420; //0.3360-0404;
-volatile	float	Rate_RMS_UCA = 0.3949;//0.3366; //0.3693-TI; //0.3722-0420; //0.3330-0404;
+volatile	float	Rate_RMS_UAB = 0.4012;			//0.3791-TI; //0.3821-0420; //0.3355-0404;
+volatile	float	Rate_RMS_UBC = 0.3978;			//0.3710-TI; //0.3739-0420; //0.3360-0404;
+volatile	float	Rate_RMS_UCA = 0.4007;			//0.3693-TI; //0.3722-0420; //0.3330-0404;
 
 volatile	Uint16	Bias_ADC_IAB = 2043;			// Replace former Macro : ADC_ZERO_IiA in file usr_ADC.h
 volatile	Uint16	Bias_ADC_IBC = 2044;			// VCM=1.5V -> 2047 ( the Theoretical VCM Value )
