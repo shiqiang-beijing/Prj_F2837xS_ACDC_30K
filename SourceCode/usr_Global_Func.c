@@ -524,9 +524,13 @@ void ePwm_width_P(void)										// Run Time in RAM ( CPU_Cycle ): 131 ( No  Min
 	float	Width_Accumulator = 0;
 	float	Width_RateAdj = 1;
 
-	ePwm_Width_A = UiA_Trans * Rate_UiA_Pwm;
-	ePwm_Width_B = UiB_Trans * Rate_UiB_Pwm;
-	ePwm_Width_C = UiC_Trans * Rate_UiC_Pwm;
+//	ePwm_Width_A = UiA_Trans * Rate_UiA_Pwm;
+//	ePwm_Width_B = UiB_Trans * Rate_UiB_Pwm;
+//	ePwm_Width_C = UiC_Trans * Rate_UiC_Pwm;
+
+	ePwm_Width_A = UiA_Trans * Rate_All_A_Pwm;
+	ePwm_Width_B = UiB_Trans * Rate_All_B_Pwm;
+	ePwm_Width_C = UiC_Trans * Rate_All_C_Pwm;
 
 	Width_Accumulator = ePwm_Width_A + ePwm_Width_B + ePwm_Width_C;
 

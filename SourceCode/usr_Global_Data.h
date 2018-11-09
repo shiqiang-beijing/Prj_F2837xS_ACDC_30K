@@ -23,7 +23,7 @@
 
 #define     POWER_MODE_PARALLEL                 // Parallel Mode ( Serial Mode -> Cancel the Defination )
 
-//#define     SCIB_MONITOR                        // SCIB Communicate wite Monitor
+#define     SCIB_MONITOR                        // SCIB Communicate wite Monitor
 
 //--------------------------------------------------------------------------------
 // Compiling Parameter
@@ -80,6 +80,14 @@ extern	volatile	float	Rate_Uac_Pwm;
 extern	volatile	float	Rate_UiA_Pwm;
 extern	volatile	float	Rate_UiB_Pwm;
 extern	volatile	float	Rate_UiC_Pwm;
+
+extern	volatile	float	Rate_SymA_Pwm;
+extern	volatile	float	Rate_SymB_Pwm;
+extern	volatile	float	Rate_SymC_Pwm;
+
+extern	volatile	float	Rate_All_A_Pwm;
+extern	volatile	float	Rate_All_B_Pwm;
+extern	volatile	float	Rate_All_C_Pwm;
 
 //--------------------------------------------------------------------------------
 extern	volatile	Uint16	Bias_ADC_UAB;

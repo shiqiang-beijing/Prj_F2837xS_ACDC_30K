@@ -402,7 +402,11 @@ void main(void)
 		}
 		#endif
 
-		//------------------------------ Adjust the Coefficient of Control
+		//------------------------------------------------------------------------------------
+		//								Adjust the Coefficient of Control
+		//------------------------------------------------------------------------------------
+
+		//------------------------------ PWM Control Coefficient : Uac Checking
 		if( UiA_RmsNew && UiB_RmsNew && UiC_RmsNew )
 		{
 			/*
@@ -460,8 +464,18 @@ void main(void)
 			UiC_RmsNew = 0;
 		}
 
+		//------------------------------ PWM Control Coefficient : Symmetric Reason
+		Rate_SymA_Pwm = 1.00;
+		Rate_SymB_Pwm = 1.10;
+		Rate_SymC_Pwm = 1.03;
+
+		//------------------------------ PWM Control Coefficient : Combination of all Reasons
+		Rate_All_A_Pwm = Rate_UiA_Pwm * Rate_SymA_Pwm;
+		Rate_All_B_Pwm = Rate_UiB_Pwm * Rate_SymB_Pwm;
+		Rate_All_C_Pwm = Rate_UiC_Pwm * Rate_SymC_Pwm;
+
 		//------------------------------------------------------------------------------------
-		//								 Miscellaneous Handling
+		//								Miscellaneous Handling
 		//------------------------------------------------------------------------------------
 
 		//------------------------------ SCI-B
